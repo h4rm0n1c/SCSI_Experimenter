@@ -1,0 +1,28 @@
+# KiCad local/user files
+*.kicad_prl
+*.kicad_pro.user
+fp-info-cache
+
+# Autosaves, backups, temp
+_autosave-*
+*-backup.*
+*-backups/
+*.bak
+*.bck
+*.tmp
+*.swp
+*.~*
+
+# Plot/gerber/output folders (adjust to your project)
+Gerbers/
+gerbers/
+plots/
+Plot/
+Outputs/
+output/
+Fabrication/
+fabrication/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
