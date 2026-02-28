@@ -26,3 +26,7 @@ fabrication/
 # OS/editor noise
 .DS_Store
 Thumbs.db
+
+# KiCad lock files (should never be committed)
+*.lck
+~*.lck
