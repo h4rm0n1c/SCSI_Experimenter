@@ -7,6 +7,11 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "33C93 SCSI Experimenter Board")
+		(comment 1 "© 2026 Harrison Mclean")
+		(comment 2 "WTFPL License")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
@@ -11807,7 +11812,7 @@
 		(end 126.25 119.5)
 		(stroke
 			(width 0.05)
-			(type default)
+			(type solid)
 		)
 		(fill no)
 		(layer "Edge.Cuts")
