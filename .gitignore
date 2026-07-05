@@ -30,3 +30,7 @@ Thumbs.db
 # KiCad lock files (should never be committed)
 *.lck
 ~*.lck
+
+# Python bytecode
+__pycache__/
+*.pyc
