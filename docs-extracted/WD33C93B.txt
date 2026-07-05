@@ -1,0 +1,7503 @@
+WD33C93B
+
+Enhanced SCSI Bus
+Interface Controller
+
+•
+
+fA weSTERN O\G\1'AL
+
+WD33C938
+
+TABLE OF CONTENTS
+Section
+1.0
+
+Title
+
+INTRODUCTION ...................................................... 30-1
+1.1
+1.2
+1.3
+
+2.0
+
+PROCESSORIDMA INTERFACE ..................................... 30-3
+SCSI INTERFACE ................................................ 30-5
+
+REGISTERS .......................................................... 30-6
+3.1
+
+3.2
+
+4.0
+
+DESCRIPTION ................................................... 30-1
+FEATURES ...................................................... 30-1
+DIFFERENCES BETWEEN THE 33C93A AND 33C93B ................... 30-2
+
+PIN DESCRIPTIONS ................................................... 30-3
+2.1
+2.2
+
+3.0
+
+Page
+
+REGISTER DESCRIPTIONS ........................................ 30-7
+3.1.1 Auxiliary Status Register ...................................... 30-7
+3.1.2 Address Register ............................................ 30-7
+3.1.3 Own ID/CDB Size Register ..................................... 30-8
+3.1.4 Control Register ............................................. 30-8
+3.1.5 Timeout Period Register ...................................... 30-10
+3.1.6 Command Descriptor Block Registers ........................... 30-10
+3.1.7 Total Sectors Register ........................................ 30-11
+3.1.8 Total Heads Register ........................................ 30-11
+3.1.9 Total Cylinders Register ...................................... 30-11
+3.1.10 Logical Address Register ..................................... 30-11
+3.1.11 Sector Number Register ..................................... 30-11
+3.1.12 Head Number Register ...................................... 30-11
+3.1.13 Cylinder Number Register ................................... 30-11
+3.1.14 Target LUN Register ........................................ 30-11
+3.1.15 Command Phase Register .................................... 30-12
+3.1.16 Synchronous Transfer Register ................................ 30-12
+3.1.17 Transfer Count Register ..................................... 30-13
+3.1.18 Destination 10 Register ...................................... 30-14
+3.1.19 Source 10 Register ......................................... 30-14
+3.1.20 SCSI Status Register ........................................ 30-15
+3.1.21 Command Register ......................................... 30-19
+3.1.22 Data Register .............................................. 30-20
+3.1.23 Queue Tag Register ........................................ 30-20
+RESET CONDITIONS ............................................ 30-20
+3.2.1 Hardware Reset ............................................ 30-20
+3.2.2 Software Reset ............................................. 30-21
+
+COMMANDS ........................................................ 30-22
+4.1
+4.2
+4.3
+
+4.4
+
+COMMAND LIST ................................................ 30-22
+33C93B COMMAND TYPES ....................................... 30-23
+33C93B SPECIFIC FEATURES ..................................... 30-23
+4.3.1 Advanced Features .......................................... 30-23
+4.3.2 Really Advanced Features .................................... 30-24
+LEVEL I COMMANDS ............................................ 30-24
+4.4.1 Reset .................................................... 30-24
+4.4.2 Abort ..................................................... 30-25
+4.4.3 Disconnect ................................................ 30-25
+4.4.4 Assert ATN ................................................ 30-25
+4.4.5 Negate ACK ............................................... 30-25
+4.4.6 Set 101 .................................................... 30-26
+
+ADVANCE INFORMATION 12110190
+
+30-i
+
+WD33C93B
+Section
+
+Title
+4.5
+
+4.6
+
+Page
+lEVEL II SIMPLE COMMANDS ..................................... 30-26
+4.5.1 Select-with-ATN ............................................ 30-26
+4.5.2 Select-without-ATN .......................................... 30-26
+4.5.4 Receive .................................................. 30-27
+4.5.5 Send ..................................................... 30-27
+4.5.6 Transfer Info ............................................... 30-28
+4.5.7 Translate Address ........................................... 30-29
+lEVEL II COMBINATION COMMANDS .............................. 30-29
+4.6.1 Select-and-Transfer ......................................... 30-29
+4.6.2 Reselect-and-Transfer ....................................... 30-33
+4.6.3 Wait-for-Select-and-Receive ................................... 30-36
+4.6.4 Send-Status-and-Command-Complete .......................... 30-38
+4.6.5 Send-Disconnect-Message .................................... 30-39
+
+5.0
+
+ELECTRICAL CHARACTERISTICS ...................................... 30-40
+
+6.0
+
+TIMING CHARACTERiSTiCS ........................................... 30-41
+6.1
+PROCESSORIDMA INTERFACE .................................... 30-42
+6.1.1 ClK ...................................................... 30-42
+6.1.2 MR- ..................................................... 30-42
+6.1.3 Processor Write (Indirect Addressing) ........................... 30-43
+6.1.4 Processor Read (Indirect Addressing) ........................... 30-44
+6.1.5 Processor Write (Direct Addressing) ............................. 30-45
+6.1.6 Processor Read (Direct Addressing) ............................. 30-46
+6.1.7 DMA Write ................................................. 30-47
+6.1.8 DMA Read ................................................. 30-48
+6.1.9 WD-BUS Buffer Write ........................................ 30-49
+6.1.10 WD-BUS Buffer Read ....................................... 30-50
+6.1.11 Burst DMAWrite ............................................ 30-51
+6.1.12 Burst DMA Read ........................................... 30-52
+6.1.13INTRQ ....................... ,............................ 30-53
+6.2 SCSI INTERFACE ............................................... 30-54
+6.2.1 Arbitration ................................................. 30-54
+6.2.2 Selection (Initiator) .......................................... 30-55
+6.2.3 Selection (Target) ........................................... 30-56
+6.2.4 Reselection (Target) ......................................... 30-57
+6.2.5 Reselection (Initiator) ........................................ 30-58
+6.2.6 ASYNC Information Transfer In (IN IT) ........................... 30-59
+6.2.7 ASYNC Information Transfer In (TARG) .......................... 30-60
+6.2.8 ASYNC Information Transfer Out (INIT) .......................... 30-61
+6.2.9 ASYNC Information Transfer Out (TAR G) ........................ 30-62
+6.2.10 SYNC Information Transfer In (IN IT) ............................ 30-63
+6.2.11 SYNC Information Transfer In (TARG) ........................... 30-64
+6.2.12 SYNC Information Transfer Out (INIT) ........................... 30-66
+6.2.13 SYNC Information Transfer Out (TARG) ......................... 30-68
+6.2.14 Arbitration To Bus Free ...................................... 30-69
+6.2.15 Selection/Reselection To Bus Free ............................. 30-70
+6.2.16 Connected-As-An-Initiator To Bus Free .......................... 30-71
+6.2.17 Connected-As-A-Target To Bus Free ............................ 30-72
+
+30-ii
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+LIST OF ILLUSTRATIONS
+Figure
+1
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+
+33
+34
+35
+
+Page
+
+Title
+
+44-Pin Chip Carrier ..................................................... 30-3
+40-Pin DIP ............................................................ 30-3
+WD33C93B Block Diagram ............................................... 30-5
+Clock Timing ......................................................... 30-42
+MR- Timing .......................................................... 30-42
+Processor Write Timing ................................................. 30-43
+Processor Read Timing ................................................. 30-44
+Processor Write (Direct) Timing .......................................... 30-45
+Processor Read (Direct) Timing .......................................... 30-46
+DMA Write Timing ..................................................... 30-47
+DMA Read Timing ..................................................... 30-48
+WD Bus Buffer Write Timing ............................................. 30-49
+WD Bus Buffer Read Timing ............................................. 30-50
+Burst DMA Write Timing ................................................ 30-51
+Burst DMA Read Timing ................................................ 30-52
+INTRQ Timing ........................................................ 30-53
+Arbitration Timing ..................................................... 30-54
+Timing-Initiator Selecting a Target ......................................... 30-55
+Timing-Target Response ................................................ 30-56
+Timing-Reselecting a Target ............................................. 30-57
+Timing-Reselection as Initiator ........................................... 30-58
+Timing-Asynchronous Transfer as Initiator .................................. 30-59
+Timing-Asynchronous Transfer as Target ................................... 30-60
+Timing-Asynchronous Trnasfer Out as Initiator ............................... 30-61
+Timing-Receive Asynchronous Transfer Out asTarget ......................... 30-62
+Timing-Synchronous Transfer In as Initiator ................................. 30-63
+Timing-Send Synchronous Transfer In as Target ............................. 30-64
+Timing-Send Synchronous Transfer In as Target ............................. 30-65
+Timing-Send Synchronous Transfer Out as Target ............................ 30-66
+Timing-Send Synchronous Transfer Out as Target ............................ 30-67
+Timing-Receive Synchronous Transfer Out as Target ......................... 30-68
+Arbitration to Bus Free Timing ........................................... 30-69
+Timing-Selection to Bus Free ............................................ 30-70
+Timing-Initiator to Bus Free .............................................. 30-71
+Timing-Target to Bus Free .............................................. 30-72
+
+ADVANCE INFORMATION 12110/90
+
+30-iii
+
+WD33C93B
+
+INTRODUCTION
+
+1.0
+
+INTRODUCTION
+
+1.1
+
+DESCRIPTION
+
+The 33C93B, a MOSIVLSI device implemented in
+Western Digital's CMOS process, operates from a
+single 5 Volt supply and is available in either a
+44-pin chip carrier or a 40-pin dual-in-line package.
+All inputs and outputs are TTL compatible.
+The 33C93B is intended for use in systems which
+interface to the Small Computer System Interface
+(SCSI) Bus. The 33C93B can operate in both the
+initiator (typically, a host computer system) and the
+target (typically, a peripheral device) SCSI bus
+roles.
+
+The 33C93B has an internal microcontroller, a
+register task file, and SCSI interface logic. This
+architecture supports both tight control of the
+protocol for non-standard SCSI implementations,
+as well as a hands-free mode for standard
+SCSI applications.
+
+1.2
+
+FEATURES
+
+o Implements full SCSI bus features: arbitration,
+disconnect, reconnect, parity generation and
+checking on both data ports, soft reset, and
+synchronous data transfers.
+
+o Includes 48 mA drivers for direct connection to
+the SCSI bus.
+
+When used in the host system, the 33C93B interfaces to both the host bus and the SCSI bus. To
+perform a SCSI operation, the host processor issues a command to the 33C93B to select the
+desired target. The 33C93B then arbitrates for the
+SCSI bus and selects the peripheral unit. If it fails
+to get the bus because of a device with higher
+priority, it continues trying and notifies the host
+when it has succeeded by generating an interrupt.
+At this point, the 33C93B is operating in the initiator
+role. When the peripheral requests a SCSI command from the host, the 33C93B receives the request and generates another interrupt to the host.
+The host responds to this interrupt by issuing a
+"Transfer Info" command and supplying SCSI command bytes to the 33C93B. The 33C93B transfers
+the SCSI command to the peripheral and then waits
+for the next bus phase request. This process continues until all SCSI information including data,
+status, and messages have been transferred.
+The 33C93B also offers high-level Select-andTransfer commands which eliminate the interrupt
+handling otherwise required between each SCSI
+bus phase.
+When the 33C93B is used in a peripheral system,
+the 33C93B operates primarily in a target role. It
+interfaces with a local processor and the SCSI bus
+in this environment just as it does when used in a
+host adapter. The target-role command set enables
+the 33C93B to request each SCSI bus phase individually or to sequence the SCSI bus phases
+automatically through the use of combination commands.
+
+o Operates in both initiator and target roles.
+o Synchronous offset selectable from one to
+twelve bytes.
+
+o Programmable timeout for selection and
+reselection.
+
+o Support for SCSI-2 features:
+-
+
+Synchronous transfer rates up to 10
+Mbytes/s for Fast SCSI transfers; up to 5
+Mbyte/s for standard SCSI transfers.
+
+-
+
+Select-and-Transfer, Reselect-and-Transfer,
+and
+Wait-for-Select-and-Receive
+commands provide support for queue tag
+messages and target routine identify
+messages.
+
+o Special
+
+"Translate Address" command
+performs the Logical-to-Physical address
+mapping.
+
+o "Combination" commands greatly reduce
+interrupt-handling responsibilities.
+
+o Compatible
+
+with most microprocessors
+through an 8-bit data bus; supports both
+multiplexed and non-multiplexed address/data
+bus systems. Host bus data parity checking
+and generation is an optional feature.
+
+o Burst data transfers up to 4096 bytes.
+o Data transfer options include programmed I/O,
+single-byte DMA, burst (multibyte) DMA, or
+direct bus access (WD bus) transfers.
+
+o Single +5 V supply.
+o Available in 44-pin chip carrier or 40-pin DIP.
+o Low-power CMOS design.
+
+ADVANCE INFORMATION 12110190
+
+30-1
+
+WD33C938
+1.3
+
+INTRODUCTION
+
+DIFFERENCES BETWEEN THE 33C93A
+AND 33C93B
+
+The 33C93B delivers the same functionality as the
+33C93A as well as additional features to support
+SCSI-2 and improve system performance. Unless
+the device is configured with the RAF bit in the
+OWN ID register set, the 33C93B is completely
+backward compatible to the 33C93A; consequently,
+in most applications, it may replace the 33C93A
+with no modification to the hardware or the
+firmware.
+The 33C93B has grouped several recently added
+features of the 33C93A with two 33C93B-only enhancements into a mode enabled by configuring the
+device with the RAF bit set. Section 4.3.2 describes
+this new mode. The first two features---the loading
+of the microcode revision on a soft reset condition
+and the aborting of a target Receive command
+upon the detection of the SCSI Attention condition
+or of a parity error---existed in the 33C93A design.
+The 33C93B design has added to this mode the
+ability to detect possible data corruption and unexpected disconnects from the SCSI bus when
+operating as a target.
+To support SCSI-2, the combination commands
+Select-and-Transfer, Reselect-and-Transfer, and
+Wait-for-Select-and-Receive optionally send or
+receive Queue-tag messages at appropriate points
+in the SCSI bus sequence. The host via two bits in
+the DESTINATION ID register and the newly added
+QUEUE TAG register provides information which
+the first two commands use to generate and check
+these messages. Wait-for-Select-and-Receive,
+through the same locations, relays information to
+the host regarding the type of Queue-tag message
+received, including whether the initiator sent a message or not, and the actual queue tag.
+
+30-2
+
+These commands also support the LUNTAR bit in
+the Identify message. By setting the corresponding
+bit in the TARGET LUN register, the host enables
+the Select-and-Transfer and Reselect-and-Transfer commands to send an Identify message for a
+target routine. In the case of Select-and-Transfer,
+setting this bit also enables the 33C93B to accept
+automatically an Identify message with the LUNTAR bit set. The host also has the option to let the
+Wait-for-Select-and-Receive command receive a
+target routine Identify message and proceed to the
+next phase or to interrupt the host so that it may
+reject the message when the application does not
+support target routines.
+The last new feature pertaining to SCSI-2 relates to
+Fast SCSI. When the 33C93B has an input clock
+between 16 MHz and 20 MHz, by controlling the
+Fast SCSI Select (FSS) bit in the SYNCHRONOUS
+TRANSFER register, the host can select between
+normal synchronous transfers which reach a maximum transfer rate of 5 MB/s and Fast synchronous
+transfers with a peak rate of 10 MB/s on both the
+SCSI and host DMA interfaces.
+The final addition to the 33C93B is the FIFO
+Full/Empty (FFE) bit in the AUXILIARY STATUS
+register to be used primarily during polled I/O transfers. As its name suggests, this bit reflects the full
+or empty state of the FIFO depending on the direction of the transfer. If the host is writing data to the
+FIFO, the 33C93B sets this bit when the FIFO is
+empty, indicating that the host may write up to
+twelve bytes to the FIFO without having to poll the
+DBR bit before writing each byte. Similarly, when
+the host is reading data from the FIFO, the 33C93B
+sets this bit when the FIFO is full, indicating that the
+host may read the DATA register twelve times
+without polling DBR before each read. Some
+restrictions do apply when using this bit, and they
+are described in Section 3.1.22.
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+PIN DESCRIPTIONS
+
+2.0
+
+PIN DESCRIPTIONS
+110
+
+01~lw 0lml~IMIN °1~lo
+~ @@ 6 @ @ @@ ~ @ @
+39 38 37 36 35 34 33 32 31 30 29
+MR
+
+28
+
+40
+
+SOP
+
+ATN
+
+27
+
+ALE
+
+ACK
+
+26
+
+RE
+
+REO
+
+25
+
+WE
+
+Vee
+
+24
+
+CS
+
+23
+
+GNO
+
+22
+
+(NC)
+
+21
+
+AO
+
+-
+
+WD33C93B
+
+(NC)
+1/0
+
+2
+
+-
+
+MSG
+GNO
+
+20
+
+07
+
+C/O
+
+5
+
+19
+
+06
+
+BSY
+
+6
+
+18
+
+05
+
+-
+
+7
+
+8
+
+9 10 11 12 13 14 15 16 17
+
+~IOI~ ~ a o o
+~ o
+NoM3
+--'a:uOa:
+I~ Uo<C
+f0
+
+~
+
+o
+
+Figure 1. 44-Pin Chip Carrier
+
+2.1
+
+Vee
+
+MSG
+
+REO
+
+GNO
+
+ACK
+
+C/O
+
+ATN
+
+BSY
+
+MR
+
+SEl
+
+GNO
+
+ClK
+ORO
+
+S07
+
+OACK
+
+S05
+
+INTRa
+
+S04
+
+DO
+
+S03
+
+S06
+
+01
+
+S02
+
+02
+
+GNO
+
+03
+
+S01
+
+04
+
+SOO
+
+05
+
+SOP
+
+06
+
+ALE
+
+07
+
+RE
+
+AO
+
+WE
+
+GNO
+
+cs
+
+-
+
+Figure 2. 4O-Pin DIP
+
+PROCESSOR/DMA INTERFACE
+
+NAME
+ClK
+MR-
+
+1/0
+I
+I
+
+INTRa
+
+0
+
+RE-
+
+1/0
+
+WE-
+
+I/O
+
+CS-
+
+I
+
+AO
+
+I
+
+FUNCTION
+8-20 MHz square wave clock
+Reset is an active-low input which forces the 33C93B into an idel state and
+forces all SCSI signals to the negated state.
+Interrupt Request to the external microprocessor indicates a command completion/termination or a need to service the SCSI interface. Reading the
+SCSI STATUS register clears this bit.
+Read Enable is an active-low input used with CS- to read a register or with
+DACK- to access the DATA register in DMA mode. In WD Bus mode, it is
+used as an output to read data from a sector buffer. (TRI-STATE).
+Write Enable is an active-low input used with CS- to write a register or with
+DACK- to access the DATA register in DMA mode. In WD Bus mode, it is
+used as an output to write data to a sector buffer. (TRI-STATE)
+Chip Select is an active-low input which qualified RE- and WE- when accessign a register. This signal must be inactive during a DMA cycle (DACK- active in DMA and Burst DMA mode or DRa active in WD Bus mode).
+Address Pin AO is used to access the internal registers for non-multiplexed
+addressldata busses (i.e.; the ALE pin is grounded). The address of the
+desired register is loaded into the address register during a write cycle with
+AO=O. The selected reQister is then accessed when AO=1.
+
+ADVANCE INFORMATION 12110190
+
+30-3
+
+WD33C93B
+NAME
+
+PIN DESCRIPTIONS
+
+110
+
+ALE
+
+I
+
+DACK(RCS-)
+
+I/O
+
+DRQ-
+
+I/O
+
+D7 - DO
+DP
+
+I/O
+I/O
+
+30-4
+
+FUNCTION
+Address Latch Enable is used for multiplexed address/data busses to load
+the address of the desired 33C93B register from the data bus. For indirect
+addressing, the ALE pin should be grounded. See the description of the ADDRESS register for a complete discussion of direct and indirect addressing.
+DMAAcknowledge is an active-low input used for (RCS-) interfacing to an
+external DMA controller (e.g. 8237). When DACK- is low, all bus transfers
+are to or from the DATA register regardless of the contents of the ADDRESS
+register. In WD Bus mode this pin, an open-drain output, functions as a
+RAM Chip Select to the sector buffer. RE- and WE- are outputs when RCSis active. Regardless of the host DMA mode selected, this pin should be
+pulled via external circuitry (e.g. a pullup resistor) to an inactive state and
+should not be left floatinQ.
+Data Request is an active-low output when used for interfacing to an external DMA controller and an active-high input when in WD Bus mode. In the
+first application, DRQ- and DACK- form the handshake for the DMA data
+transfers. In Burst mode, DRQ- remains low so long as there is data to
+transfer; in Single-byte DMA mode, DRQ- toggles for each byte. Since this
+pin is an open drain output, a pullup resistor may be required when operating in these modes. In WD Bus mode, this pin becomes the DRQ input. A
+high level on this pin enables the 33C93B to perform burst transfers; a low
+level inhibits transfers by deasserting RCS-and disabling the RE- and WEoutputs.
+Processor data bus.
+Data Parity is used only for checking and generating parity during data transfers.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+PIN DESCRIPTIONS
+
+2.2
+
+SCSI INTERFACE
+
+NAME
+ATN-
+
+1/0
+I/O
+
+REQ-
+
+1/0
+
+ACK-
+
+I/O
+
+MSG-
+
+I/O
+
+C/O-
+
+I/O
+
+1/0-
+
+I/O
+
+S07SOOSOPBSY-
+
+I/O
+I/O
+I/O
+I/O
+
+SEL-
+
+l/a
+
+FUNCTION
+ATN- is an output in the initiator role and an input in the target role. Its
+assertion indicates the ATTENTION condition.
+REQ- is an input in the initiator role and·an output in the target role. It indicates a request for a data transfer.
+ACK- is an output in the initiator role and an input in the target role. It indicates an acknowledgement of a data transfer.
+MSG- is an input in the initiator role and an output in the target role. The target asserts this signal when requesting message information.
+C/O- is an input in the initiator role and an output in the target role. It
+specifies whether CONTROL or OATA information is on the SCSI data bus.
+1/0- is an input in the initiator role and an output in the target role. It controls
+the direction of data movement on the SCSI data bus with respect to an initiator.
+SCSI data bus.
+SCSI data bus.
+SCSI data bus parity signal.
+BSY- is asserted when the 33C93B is attempting to arbitrate for the SCSI
+bus or when connected as a target.
+SEL- is asserted when the 33C93B is attempting to select or reselect
+another SCSI device.
+
+SCSI
+BUS
+
+INTERNAL
+BUS
+
+'+_"'~~ REGISTER FILE
+
+...
+
+AO/ALE
+
+AND STACK
+
+~HHcOiS~T"IN~T~ERlRF~ACCEE~---- CS
+14--....(--+1 DATA BUFFERS
+~~~R~I~~G~E~N/~C~HK~(---~~RE
+
+WE
+
+~7
+
+do
+DP
+~-----.
+
+L..::==:..J~-------j~
+
+DRQ
+DACK
+
+Figure 3. WD33C93B Block Diagram
+ADVANCE INFORMATION 12110190
+
+30-5
+
+II!I
+
+WD33C93B
+
+3.0
+
+WD33C93B REGISTERS
+
+WD33C93B REGISTERS
+
+AO
+
+0
+0
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+
+1
+1
+1
+1
+1
+1
+1
+
+RIW
+
+R
+W
+
+RIW
+RIW
+RIW
+RIW
+RIW
+RIW
+RIW
+RIW
+RIW
+
+RIW
+RIW
+RIW
+RIW
+RIW
+RIW
+
+RIW
+RIW
+RIW
+RIW
+RIW
+
+RIW
+RIW
+RIW
+R
+
+RIW
+RIW
+RIW
+
+REGISTER MAP
+REGISTER ACCESSED
+
+Auxiliary Status Register
+Address Register
+Own ID Register .
+Control Register
+Timeout Period Register
+Total Sectors Register
+Total Heads Register
+Total Cylinders Register (MSB)
+Total Cylinders Register (lSB)
+logical Address (MSB)
+logical Address (2nd)
+logical Address (3rd)
+logical Address (lSB)
+Sector Number Register
+Head Number Register
+Cylinder Number (MSB) Register
+Cylinder Number (MSB) Register
+Target lUN Register
+Command Phase Register
+Synchronous Transfer Register
+Transfer Cound Register (MSB)
+Transfer Cound Register (2nd Byte)
+Transfer Cound Register (lSB)
+Destination ID Register
+Source ID Register
+SCSI Status Register
+Command Register
+Data Register
+Queue Tage Register
+
+ADDRESS
+(HEX)
+
+/CDB Size
+
+/CDB 1st
+/CDB 2nd
+/CDB 3rd
+/CDB 4th
+/CDB 5th
+/CDB 6th
+/CDB 7th
+/CDB 8th
+/CDB 9th
+/CDB 10th
+/CDB 11th
+/CDB 12th
+
+XX
+XX
+00
+01
+02
+03
+04
+05
+06
+07
+08
+09
+OA
+OB
+OC
+OD
+OE
+OF
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+1A
+
+NOTE: 1. All unused. bits of a defined register are reserved and must be zero.
+2. Reading an undefined or unavailable register results in an all-ones data bus output.
+3. Register addresses are determined by the ADDRESS register bist AR7 through ARO.
+4. When using a multiplexed address/data bus with ALE, the AO pin is ignored, and the
+ADDRESS register is loaded with ALE. In this mode, the AUXILIARY STATUS register
+is mapped at 1F hex.
+5. See section 3.2 for a description of how reset affects the internal registers.
+
+30-6
+
+ADVANCE INFORMATION 12110/90
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+3.1
+
+REGISTER DESCRIPTIONS
+
+3.1.1
+
+Auxiliary Status Register
+
+The AUXILIARY STATUS register, a read-only
+register, contains general status information not
+directly associated with the interrupt condition. The
+host may access the AUXILIARY STATUS register
+at any time except during DMA accesses. (DACKasserted in DMA/Burst mode or RCS- asserted in
+WD bus mode).
+
+Bit 0
+
+Bit 1
+
+DBR·DATA BUFFER READY
+DATA BUFFER READY indicates to the
+processor whether or not the DATA
+register is available for reading or writing.
+During a Send command or a Transfer
+Info command which transmits data over
+the SCSI bus, the 33C93B sets this bit
+when ready to take a byte from the host;
+it resets this bit when the processor writes
+the byte to the DATA register. During a
+Receive command or a Transfer Info command which receives data over the SCSI
+bus, the 33C93B sets DBR when it
+receives a byte and resets DBR when the
+processor reads the byte from the DATA
+register.
+PE·DATA BUFFER READY
+PARITY ERROR status indicates that the
+33C93B received a byte with even parity
+during a transfer. SCSI parity checking is
+always enabled; host parity checking is
+enabled via the EHP bit in the OWN ID
+register Detection of a parity error will set
+the PE status bit regardless of the state of
+the HHP or HSP bits in the CONTRO
+register. Issuing a command clears the
+PE bit.
+
+Bit 2
+
+FFE ·DATA BUFFER READY
+FIFO FULUEMPTY indicates when the
+FIFO is full or empty depending on the
+direction of the transfer. (see 3.1.22)
+
+Bit4
+
+CIP ·DATA BUFFER READY
+COMMAND IN PROGRESS indicates that
+
+the 33C93B is interpreting the last command entered into the COMMAND
+register which is therefore unavailable.
+Bit 5
+
+BSY·BUSY
+BUSY indicates that a Level II command
+is currently executing, so the host may
+only access the COMMAND register
+(when CIP = O),the DATA register, and the
+AUXILIARY STATUS register. When this
+bit is set, the host should not issue a
+Level II command.
+
+BitS
+
+LCI ·DATA BUFFER READY
+LAST COMMAND IGNORED indicates
+that the 33C93B ignored a command because the host issued it just prior to or
+concurrent with a pending interrupt.
+
+Bit 7
+
+INT·DATA BUFFER READY
+INTERRUPT PENDING reflects the state
+of the INTRQ pin. When set, the host
+should read the SCSI STATUS register to
+clear INTRQ prior to issuing any commands.
+
+3.1.2 Address Register
+The ADDRESS register, a write-only register, holds
+the address of the register to be accessed.
+Registers in the 33C93B may be accessed in one
+of two ways:
+
+•
+
+.
+
+Direct addressing (multiplexed address/data
+busses). In this mode, the falling edge of the
+ALE signal latches the contents of the host
+data bus into the ADDRESS register. The CSand WE- or RE- signals typically follow to
+access the selected register. When using
+direct addressing, the AD pin should be
+connected to ground, and the AUXILIARY
+STATUS register is located at address 1F hex.
+Indirect addressing (separate address/data
+busses). This method, enabled by tying ALE
+to ground, requires two separate cycles for a
+register access. The first cycle loads the
+desired address into the ADDRESS register
+by writing (CS- and WE- asserted) to the
+33C93B with AO=O.The second cycle, with
+AO=1, then reads (CS- and RE- asserted) or
+writes (CS- and WE- asserted) the selected
+register. Every cycle with AO=1 increments the
+ADDRESS register except when accessing
+the DATA or COMMAND registers. In indirect
+
+ADVANCE INFORMATION 12110190
+
+30-7
+
+..
+
+WD33C93B
+
+WD33C938 REGISTERS
+
+addressing,
+the
+AUXILIARY
+STATUS
+register is accessed by performing a read (CSand RE- asserted) with AO=O.
+
+3.1.3 Own IDICDB Size Register
+
+Bit 5 RAF-REALLY ADVANCED FEATURES
+REALLY ADVANCED FEATURES, when
+set, enables features described in section
+4.3.2.
+
+Bit 6-7 FSn-FREQUENCY SELECT
+FREQUENCY SELECT 0-1 select the
+divisor that is applied to the input clock.
+The divided clock is used for data transfer
+timing and for SCSI bus arbitration timing.
+The table below shows input clock frequency ranges and their corresponding
+divisors. An incorrect divisor for the input
+clock may result in violation of SCSI bus
+timing specifications.
+
+The OWN ID/CDB SIZE register, in its first mode,
+contains information which the Soft Reset command uses to configure the device. Following a
+hardware reset, the host, before issuing any other
+command, must initialize this register and issue the
+Reset command to set the clock divisor and the
+SCSI bus ID of the device and to enable various
+sets of features and host bus parity checking.
+In the second mode, bits 3-0 of this register specify
+the SCSI CDB size if the command group is unknown (i.e. not a group 0, group 1, or group 5 SCSI
+command) to the 33C93B during the Select-andTransfer and Wait-for-Select commands. This
+mode is enabled only when advanced features (see
+4.3.1) have been selected.
+
+INPUT CLOCK
+FREQUENCY
+(MHz)
+
+FS1
+
+FSO
+
+RESULTING
+DIVISOR
+
+8-10
+12-15
+16-20
+XX
+
+0
+0
+1
+1
+
+0
+1
+0
+1
+
+2
+3
+4
+Undefined
+
+Bit 0-2IDn- SCSIID BITS
+
+Note that a clock rate between 10 MHz and 12 MHz
+should not be used, as the resulting SCSI bus clear
+delay may violate SCSI specifications. The formula
+for computing the maximum SCSI data transfer rate
+is given in Section 6.
+
+SCSI ID Bits 0-2 set the SCSI bus ID that
+the 33C93B uses during arbitration and
+selection.
+
+Bit 3 EAF-ENABLE ADVANCED FEATURES
+ENABLE ADVANCED FEATURES, when
+set, enables functions described in section 4.3.1.
+
+Bit 4 EHP-ENABLE HOST PARITY
+ENABLE HOST PARITY enables odd
+parity checking on the host bus. The PE
+bit in the AUXILIARY STATUS register
+will then also indicate parity errors
+detected on the host bus, and the HHP bit
+in the CONTROL register will have effect
+during transfers. When host parity is disabled, the PE bit is not set when a parity
+error occurs on the host bus,and the HHP
+bit must be set to zero. NOTE: Parity is always generated on the host data parity bit
+(DP), regardless of the state of
+this bit.
+
+30-8
+
+3.1.4 Control Register
+The CONTROL register consists of option bits
+which affect response to parity errors and to the
+SCSI attention condition, suppress interrupts, allow
+command chaining, and select the mode of DMA
+transfer.
+
+Bit 0
+
+HSP-HALT on SCSI PARITY ERROR
+The HALT on SCSI PARITY ERROR bit
+enables the 33C93B to terminate a
+Receive or Transfer Info command if a
+parity error occurs on an incoming SCSI
+data byte. Asynchronous transfers check
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+parity on every byte; synchronous data
+transfers check parity on 4096-byte boundaries in most cases. In the initiator role,
+the 33C93B responds to a SCSI parity
+error by leaving the ACK- pin asserted to
+inhibit any additional data transfers
+(REQs) by the target and to facilitate error
+handling with the target. If Immediate
+Halts are enabled, a SCSI parity error
+during a synchronous Receive or
+Reselect-and-Receive command will
+abort the transfer before the 4096-byte
+boundary.
+Bit 1
+
+Bit 3
+
+IDI-INTERMEDIATE DISCONNECT
+INTERRUPT
+
+The INTERMEDIATE DISCONNECT INTERRUPT bit, when set in the initiator .
+role, causes the 33C93B to terminate a
+Select-and-Transfer command and
+generate an 85 hex interrupt upon a
+proper target disconnect. When this bit
+is reset, a valid disconnect will not cause
+the 33C93B to generate an interrupt, and
+command execution proceeds. This feature, when used with the Resume SAT
+
+EDI-ENDING DISCONNECT INTERRUPT
+
+The ENDING DISCONNECT INTERRUPT bit, when set, delays the 16 hex
+interrupt which normally follows receipt of
+the Command-Complete message during
+a Select-and-Transfer command until after
+the target disconnects, replacing the 85
+hex interrupt. This bit also enables chaining between certain target-role combination commands to reduce host system
+overhead. Refer to Section 4 for more
+details.
+
+HA-HALT on ATTENTION
+
+The HALT on ATTENTION bit (target
+mode only) enables the 33C93B to terminate a Send or Receive command if the
+initiator asserts ATN-. The 33C93B normally tests for the ATN-condition before
+the start of a data transfer, on 4096 byte
+boundaries, and after the end of the transfer. If the Immediate Halt feature is
+enabled, an Abort command will be issued upon recognition of the ATN-condition. These rules apply to both
+synchronous and asynchronous transfers.
+Bit 2
+
+command, provides support for overlapped SCSI operations. In the target
+role, the IDI bit selects combination command execution options. Refer to Section
+4 for more details.
+
+Bit 4
+
+HHP-HALT on HOST PARITY ERROR
+
+The HALTon HOST PARITY ERROR bit
+allows the 33C93B to terminate a Send or
+Transfer command if a parity error occurs
+on an incoming host data byte. The
+33C93B checks for host parity errors according to the sames rules it uses when
+checking for SCSI parity errors. However, a host parity error will not leave the
+ACK- signal asserted.
+Bit 5-7 DMx-DMA MODE SELECT
+
+The DMA MODE SELECT bits 2-0 select
+the host bus transfer mode to be used
+during a Data phase. The following table
+describes the different DMA modes and
+specifies the state of these bits to select
+each mode:
+
+ADVANCE INFORMATION 12110190
+
+30-9
+
+l1li
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+DM2
+0
+
+DM1
+0
+
+DMO
+0
+
+0
+
+0
+
+1
+
+0
+
+1
+
+0
+
+1
+
+0
+
+0
+
+DMA MODE SELECTED
+POLLED I/O MODE or no DMA enabled. The host must poll
+for DBR in the AUXILIARY STATUS register and then,
+depending on the direction of the transfer, read or write the
+DATA register.
+BURST MODE or demand-mode DMA. In this mode, the
+DRO- signal will remain active so long as data or space exists
+in the internal FIFO to allow the transfer to continue. The
+DMA controller responds by asserting DACK- and
+pulsing RE- or WE- to transfer the data.
+WD-BUS MODE or Direct Buffer Access (DBA) mode. In this
+mode, the 33C93B acts as a bus master, and all data access
+signals reverse their directions. The DRO- pin becomes the
+DRO input, which when high, enables the 33C93B to drive
+the buffer control signals. The DACK- pin becomes the RCSoutput and serves as a chip select for the buffer. The RE- and
+WE- pins become outputs which drive the read and write functions of the RAM buffer. Transfers will continue in a burst manner until the transfer is complete or until the external buffer
+logic pauses the transfer by negating the DRO signal. One
+transfer may occur after DRO drops and then the DACK-, RE, and WE- signals will tristate.
+DMA MODE or Single-byte DMA. In this mode,a DRO-/DACKhandshake occurs for each byte. The DMA controller transfers
+the byte by asserting WE- or RE- while asserting DACK-.
+
+3.1.5 Timeout Period Register
+The TIMEOUT PERIOD register $tores a userselected, 8-bit value which determines the timeout
+period for selection and reselection attempts. The
+timeout period specifies how long the 33C93B will
+wait for a response (Le. assertion of the BSYsignal) after it has begun the Selection phase (asserted SEL- and negated BSY-) before terminating
+the command. Loading this register with zero disables the timeout feature. For a desired timeout
+period, the register value depends upon the input
+clock frequency, as shown in the following equation:
+Tper * Ficlk
+register value = - - - 80
+where Tper = the desired timeout period in milliseconds; Ficlk = the input clock frequency at the
+MCK pin in megahertz (with no divisor applied).
+
+30-10
+
+The constant '80' scales the units of the equation,
+as it is based on the internal timeout cycle time. The
+user should round the resulting 'register value' up
+to the next integral value to ensure that the minimum timeout requirement is met.
+
+3.1.6
+
+Command Descriptor Block Registers
+
+The COMMAND DESCRIPTOR BLOCK registers
+hold the SCSI command bytes to be sent during
+Command phase of a Select-and-Transfer command and the command bytes received during the
+Command phase of a Wait-for-Select-and-Receive
+command.
+The Send-Status-and-Command-Complete command uses the contents of the CDB11 register as
+the returned status and determines the type of the
+Command-Complete message to send from the
+contents of the CDB12 register. Bit 0 of CDB12
+selects whether the command sends a simple Command-Complete message bit 0=0) or a Linked-
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+WD33C93B REGISTERS
+
+Command-Complete message (bit 0=1). In
+the latter case, bit 1 of CDB12, the FLAG bit,
+specifies whether a OA hex (FLAG=O) or a OB hex
+(FLAG=1) message is sent.
+3.1.7
+
+Total Sectors Register
+
+The TOTAL SECTORS register stores an 8-bit
+value specifying the total number of sectors per
+track for the Translate Address command.
+3.1.8
+
+Total Heads Register
+
+The TOTAL HEADS register stores an 8-bit value
+specifying the total number of heads for the Translate Address command.
+3.1.9
+
+Total Cylinders Register
+
+The TOTAL CYLINDERS register stores a 16-bit
+value specifying the total number of cylinders for the
+Translate Address command.
+3.1.10 Logical Address Register
+The LOGICAL ADDRESS register stores the 32-bit
+logical address to be translated by the Translate
+Address command.
+3.1.11 Sector Number Register
+The SECTOR NUMBER register will contain the
+resulting physical sector number following a Translate Address command.
+3.1.12 Head Number Register
+The HEAD NUMBER register contains the resulting
+head number following a Translate Address command.
+If the host desires the 33C93B to compensate for
+spare sectors on the disk, this register should contain the number of spare sectors per cylinder prior
+to issuing the Translate Address command. A
+value of zero indicates no compensation. With
+compensation, the maximum number of cylinders
+allowed is 4096, and the maximum number of
+heads is 15.
+
+If the host desires the 33C93B to compensate for
+spare sectors on the disk, the Translate Address
+command expects this register to contain the number of sectors per cylinder after allowing for the
+spares, i.e. (sectors/track * head s spares/cylinders ).
+3.1.14 Target LUN Register
+The TARGET LUN register holds the Logical Unit
+Number (LUN) and other target status information
+during various 33C93B commands and sequences.
+The Select-and-Transfer commands use the contents of this register and the SOURCE ID register
+to generate and check Identify messages. In addition, these commands also store the returned
+status byte from the target in this register. For
+proper operation of the Select-and-Transfer commands, the host should not set the TLV bit in this
+register.
+In advanced mode, the Select-and-Transfer commands, in the event of an unexpected reselection,
+place the logical unit number (TRN=O) or the target
+routine number (TRN=1) of a reselecting target in
+this register. The TLV and DOK bits will be zero.
+The Wait-for-Select-and-Receive command places
+a copy of a received Identify message in this
+register. If the TLV bit is zero, the initiator did not
+send a valid Identify message. If the TLV bit is
+one, the initiator sent a valid Identify message,
+and the DOK bit will then indicate whether or not the
+initiator has enabled disconnects. The Wait-forSelect-and-Receive command will accept an Identify message with the TRN bit set only if the host
+issues the command with the SBT bit in the COMMAND register set.
+The Reselect-and-Transfer commands use only the
+LUN portion and the TRN bit of this register to
+generate the Identify message. The TLV and DOK
+bits are not used.
+
+3.1.13 Cylinder Number Register
+The CYLINDER NUMBER register contains a 16bit value specifying the resulting cylinder number
+following a Translate Address command.
+
+ADVANCE INFORMATION 12110190
+
+30-11
+
+WD33C938
+
+WD33C938 REGISTERS
+
+3.1.15 Command Phase Register
+The COMMAND PHASE register indicates which
+phases of a combination command have completed. Thus, if the command has terminated abnormally, the processor can read this register to
+determine the cause of the termination and decide
+how to respond to it.
+When resuming a combination command, the contents of this register specify from which point to
+restart the command. Refer to the description of
+the specific commands for details regarding the
+various command phases and resume values.
+
+The FSS bit has effect only when operating with an
+input clock frequency of 16-20 MHz, i.e. the divisor
+set to 4. Setting this bit enables Fast SCSI transfers, doubling the maximum transfer rate for
+synchronous transfers. For example, with a 20
+MHz input clock and a transfer period of 2, the
+normal maximum transfer rate (FSS=O) would be
+5 MB/s; the Fast SCSI transfer rate (FSS=1)
+would be twice this value or 10 MB/s. The FSS bit
+does not affect the rate of asynchronous transfers.
+
+Bit 0-30Fx - OFFSET
+The OFFSET bits specifies the desired offset according to the following table:
+
+3.1.16 Synch ronous Transfer Register
+The contents of the SYNCHRONOUS TRANSFER
+register specify the maximum transfer rate and the
+transfer mode for a SCSI data phase.
+For information phases other than a Data phase or
+when the selected offset is zero (OF3=
+OF2=OF1 =OFO=O), the 33C93B performs
+asynchronous transfers. A non-zero offset value,
+which should be twelve or less, selects
+synchronous data transfers and determines
+the effective FIFO depth. This value is typically
+determined through negotiation (as defined in the
+SCSI standard) with the other SCSI device.
+The Transfer Period control bits select the minimum
+transfer period for both synchronous and
+asynchronous SCSI data transfers and, in WD-Bus
+mode, the transfer period and the width of the
+RE-/WE- strobes for host transfers; for non-data
+transfers, the transfer period defaults to six periods.
+The period is defined in terms of the internal clock
+cycle time, which depends upon the input clock, the
+divisor selected in the OWN 10 register, and the
+setting of the FSS bit.
+
+30-12
+
+3
+0
+0
+0
+0
+0
+0
+0
+0
+1
+1
+1
+1
+1
+1
+1
+
+2
+0
+0
+0
+0
+1
+1
+1
+1
+0
+0
+0
+0
+1
+1
+1
+
+1
+0
+0
+1
+1
+0
+0
+1
+1
+0
+0
+1
+1
+0
+0
+1
+
+0
+0
+1
+0
+1
+0
+1
+0
+1
+0
+1
+0
+1
+0
+1
+X
+
+SELECTED OFFSET
+o Note 1
+1
+2
+3
+
+4
+
+5
+6
+
+7
+8
+9
+10
+11
+12
+Undefined
+Undefined
+
+Note 1 - Asynchronous data phase transfers.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+Bit 4-6 TPx - TRANSFER PERIOD
+The TRANSFER PERIOD bits select the
+desired desired transfer period according
+to the following table:
+
+5
+
+4
+
+SCSI/wD-BUS
+(SCSI REQ/ACK Synchronous Pulse Width
+TRANSFER PERIOD
+and WD-BUS RE- /wE- Pulse Width
+(4 cycles)
+8 cycles
+0
+0
+X
+(1 cycle)
+1
+2 cycles
+0
+0
+3 cycles
+(1 cycle)
+0
+1
+1
+4 cycles
+(2 cycles)
+1
+0
+0
+1
+1
+5 cycles
+(3 cycles)
+0
+1
+1
+6 cycles
+(4 cycles)
+0
+1
+1
+7 cycles
+(4 cycles)
+1
+The 'cycle' referred to above IS the penod of the Internal data transfer clock. For asynchronous transfers
+or for synchronous transfer when the input clock frequency is less than 16 MHz, it is calculated as follows:
+
+6
+
+DIVISOR (from OWN 10)
+CYCLE (J.L s) =
+2 * INPUT CLOCK FREQUENCY (MHz)
+For synchronous transfers when the input clock frequency is 16 MHz or greater, the cycle time is calculated
+as follows:
+2
+CYCLE (J.L s) =
+(FSS+ 1) * INPUT CLOCK FREQUENCY (MHz)
+
+Bit 7 FSS - FAST SCSI SELECT
+The FAST SCSI SELECT bit under the
+conditions mentioned above enables the
+doubling of the internal clock frequency
+resulting in a synchronous transfer rate up
+to 10 MB/s.
+
+3.1.17 Transfer Count Register
+The TRANSFER COUNT register, a 24-bit register,
+stores a preset value for the internal transfer
+counter. A Send, Receive, or Transfer Info command causes the 33C93B to load this preset value
+into the internal transfer counter, which then decrements as each data byte is transferred over the
+SCSI bus and causes a "successful completion"
+interrupt when it reaches zero.
+Loading the TRANSFER COUNT register with
+zeros prior to issuing these command or issuing the
+
+command with the SINGLE-BYTE TRANSFER bit
+set in the COMMAND register disables the counter
+function. If the counter is disabled, the Send,
+Receive, or Transfer Info command will complete
+when a single byte has been transferred.
+In combination commands, this register specifies
+the number of bytes to be transferred during a Data
+phase. A zero value indicates the lack of a Data
+phase.
+After the completion of any successful transfer,
+including commands issued in Single Byte Transfer
+mode, the TRANSFER COUNT register will be
+zero.
+When a transfer halts because of an error condition,
+a SCSI bus phase change, or an abort, the
+TRANSFER COUNT register will contain the number of bytes NOT successfully transferred over the
+SCSI bus, including any bytes present in the FIFO
+at the time of the interruption. The FIFO clearing
+
+ADVANCE INFORMATION 12110190
+
+30-13
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+process may cause the TRANSFER COUNT
+register to differ with the host DMA controller count,
+because some bytes may have been transferred
+into the FIFO but not to the SCSI bus.
+
+SCSI Data phase of a Select-and-Transfer command. When this bit is zero, the
+expected direction is out (to the target),
+and when this bit is one, the expected
+direction is in (from the target). An unexpected data phase error will occur if the
+actual direction does not match the setting
+of this bit.
+
+3.1.18 Destination 10 Register
+The DESTINATION ID register stores the encoded
+SCSI bus ID of the device to be selected or
+reselected when a Select or Reselect command is
+issued. This register also contains control bits that
+affect the operation of certain combination commands.
+
+Bit 3-4 TGx - TAG MESSAGE
+The TAG MESSAGE bits select which tag
+message code to send during Select-andTransfer and identify which tag message
+code was received by the Wait-for-Selectand-Receive command. In addition, the
+Reselect-and-Transfer commands send a
+Simple-Queue Tag message following the
+Identify message if either of these bits are
+set.
+
+4
+
+3
+
+0
+0
+1
+1
+
+0
+1
+0
+1
+
+Bit 5
+
+Bit 6
+
+30-14
+
+MESSAGE RECEIVED OR SENT
+No Message
+SIMPLE QUEUE TAG (20H)
+HEAD OF QUEUE TAG (21 H)
+ORDERED QUEUE TAG (22H)
+
+OF -DISABLE FEATURE
+DISABLE FEATURE, when set, disables
+Data phase direction checking in advanced mode and inhibits the normally
+automatic link from Send-Status-and-Command-Complete to the command fetch
+portion of Wait-for-Select-and-Receive
+when a Linked-Command-Complete message is sent.
+DPD - DATA PHASE DIRECTION
+DATA PHASE DIRECTION, when advanced features are enabled (see 4.3.1),
+specifies the expected direction of the
+
+Bit 7
+
+SCC - SELECT COMMAND CHAIN
+SELECT COMMAND CHAIN selects
+which command will follow a Reselectand-Transfer command when chaining is
+enabled (EDI=1). When this bit is zero, a
+Send-Status-and-Command-Complete
+command will follow; when this bit is one,
+a Send-Disconnect-Message command
+follows.
+
+3.1.19 Source 10 Register
+The SOU RCE ID register is used to report the SCSI
+bus ID of the device that has selected or reselected
+the 33C93B. It also contains bits that enable and
+control response to selection and reselection.
+
+Bit 2-0 Six - SOURCE 10
+SOURCE ID Bits 2-0, valid only if the SIV
+bit is set, indicate the SCSI bus ID of the
+device that selected or reselected the
+33C93B.
+Bit 3
+
+SIV - SOURCE 10 VALID
+SOURCE ID VALID is set to one when the
+33C93B is selected or reselected and the
+other SCSI bus device asserted its own
+bus ID bit during the Selection/Reselection phase. This bit is zero if only the
+bus ID bit of the 33C93B was asserted.
+
+Bit 5
+
+DSP DISABLE SELECT PARITY
+DISABLE SELECT PARITY, when set,
+causes the 33C93B to ignore the bus
+parity when responding to selection or
+reselection.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+Bit 6
+
+Bit 7
+
+ES· - ENABLE SELECTION
+ENABLE SELECTION, when set, allows
+the 33C93B to respond to selection by
+another device on the SCSI bus.
+ER - ENABLE RESELECTION
+ENABLE RESELECTION, when set, allows the 33C93B to respond to reselection by another device on the SCSI
+bus.
+
+3.1.20 SCSI Status Register
+The SCSI STATUS register, a read-only register,
+holds a value which indicates the cause of the most
+recent INTRa assertion. The 33C93B asserts
+INTRa whenever a condition occurs that requires
+intervention by the host. For example,
+- the 33C93B has been reset;
+- the command completed successfully;
+
+STATUS
+0000
+0001
+0010
+0100
+
+CODE
+xxxx
+xxxx
+xxxx
+xxxx
+
+1000
+
+xxxx
+
+- the bus phase changed;
+- an error occurred.
+After assertion of INTRa, the contents of this
+register will not change until the host reads the
+register or until the 33C93B has been reset.
+
+Bit 0-3 SSx - SCSI STATUS
+SCSI STATUS bits 0-3 are status
+qualifiers with meanings that depend upon
+the upper (4-7) status bits.
+Bit 4-7 SSx - SCSI STATUS
+SCSI STATUS bits 4-7 define the type of
+interrupt that occurred. The following
+table describes the various types:
+
+GROUP MEANING
+The 33C93B is in a reset state.
+A 33C93B command has completed successfully.
+A 33C93B command has paused or was aborted.
+A 33C93B command has been terminated prematurely
+due to an error or other unexpected condition.
+An event on the SCSI bus requires service.
+
+All other Status Code groups are currently not used and are reserved for future use.
+
+ADVANCE INFORMATION 12110190
+
+30-15
+
+__
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+In the following tables, the 'STATE' column indicates the state---Disconnected, Target, or Initiator--from which the Status Code can occur. The MCI
+field refers to the signals that define a SCSI bus
+information transfer phase: MSG-, C/D-, and 1/0-.
+A bit set to one indicates that the signal is asserted
+on the SCSI bus; a zero indicates negation. Whenever one of these Status Codes occurs, the REQsignal is asserted on the SCSI bus. The table on the
+right summarizes the meaning of the MCI field:
+
+STATUS
+0000
+
+CODE
+0000
+
+0000
+
+0001
+
+STATUS
+0001
+
+0001
+0001
+0001
+
+0001
+
+0001
+0001
+0001
+0001
+
+30-16
+
+MCICODE
+000
+001
+010
+011
+100
+101
+110
+111
+
+MEANING
+Data Out phase
+Data In phase
+Command phase
+Status phase
+Unspecified Info Out phase
+Unspecified Info In phase
+Message Out phase
+Message In phase
+
+RESET STATE INTERRUPTS
+STATE
+SPECIFIC MEANING
+33C93 Reset. The device has been hard reset, or a
+DT1
+Reset command has executed successfully with no advanced features enabled. The new state of the 33C93B
+is disconnected.
+33C93B Reset. The device has successfully completed
+DT1
+a Reset command with advanced features enabled. The
+new state of the 33C93B is disconnected.
+
+SUCCESSFUL COMPLETION INTERRUPTS
+CODE
+STATE
+SPECIFIC MEANING
+0000
+D
+A Reselect command completed successfully. The new
+state of the 33C93B is connected as a target.
+0001
+D
+A Select command completed successfully. The new
+state of the 33C93B is connected as an initiator.
+0010
+Reserved for future use.
+0011
+T
+A Receive, Send, Reselect-and-Transfer, Wait- for-Selectand-Receive, Send-Status-and- Command-Complete, or
+Send-Disconnect-Message command completed successfullv (ATN- is not asserted).
+0100
+T
+A Receive, Send, Reselect-and-Transfer, Wait-for-Selectand-Receive, or Send-Status-and- Command-Cpmplete
+command completed successfully (ATN- is asserted).
+0101
+DT
+A Translate Address command completed successfully.
+0110
+A Select-and-Transfer command completed successfully.
+I
+0111
+Reserved for future use.
+1MCI
+I
+A Transfer Info (non-Message-In phase) command completed successfully. MCI defines the new information
+itvpe (SCSI bus phase) requested.
+
+-
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+WD33C93B REGISTERS
+
+PAUSED OR ABORTED INTERRUPTS
+STATE
+SPECIFIC MEANING
+
+STATUS
+
+CODE
+
+0010
+
+0000
+
+I
+
+0010
+
+0001
+
+I
+
+0010
+
+0010
+
+D
+
+0010
+
+0011
+
+T
+
+0010
+
+0100
+
+T
+
+0010
+
+0101
+
+T
+
+0010
+
+0110
+
+I
+
+0010
+
+0111
+
+I
+
+0010
+
+1MCI
+
+-
+
+A Transfer Info (Message In phase) command has paused
+with ACK- asserted, giving the host the opportunity to
+reject the messaqe.
+A Save-Data-Pointer message was received during a
+Select-and-Transfer command. The host should save its
+current data buffer pointer.
+A Select, Reselect, or Wait-for-Select-and- Receive command aborted.
+A Receive or Send command aborted, or a Wait- forSelect-and-Receive detected an error in the Identify message. (ATN- is not asserted).
+A command aborted or halted due to assertion of ATN-, or
+a Wait-for-Select-and-Receive detected an error in the
+Identify message. (ATN- is asserted).
+A transfer has aborted because of a violation of the data
+transfer protocol,possibly corrupting the data .
+An I/O process with a queue tag which does not match
+the value in the QUEUE TAG register reselected the
+33C938. ACK- has been left asserted.
+A target whose SCSI bus ID does not match the ID in the
+DESTINATION ID register reselected the 33C938 or the
+following Identify message did not match the LUN in the
+TARGET LUN register. ACK- has been left asserted following the Identify message, and the bus ID and LUN of
+the reselecting target are available in the SOURCE ID and
+TARGET LUN registers. This status only occurs when executin~ a Select-and-Transfer in advanced mode.
+Reserved for future use.
+
+ADVANCE INFORMATION 12110190
+
+30-17
+
+..
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+STATUS
+
+CODE
+
+0100
+0100
+
+0000
+0001
+
+0100
+
+0010
+
+0100
+
+0011
+
+0100
+
+0100
+
+0100
+
+0101
+
+0100
+
+0110
+
+0100
+
+0111
+
+0100
+
+1MCI
+
+30-18
+
+TERMINATED INTERRUPTS
+SPECIFIC MEANING
+STATE
+An
+invalid
+command
+was issued.
+DTI
+TI
+An unexpected disconnect occurred. The new state of the
+33C938 is disconnected.
+0
+A timeout occurred during a Select or Reselect command. The state of the 33C938 is disconnected.
+TI
+A parity error caused a command to terminate (ATN- is
+not asserted). The transfer direction determines whether
+it is a SCSI or host parity error.
+T
+A parity error caused a command to terminate (ATN- is asserted). The transfer direction determines whether it is a
+SCSI or host parity error.
+DT
+A Translate Address command did not complete successfully. The Logical Address exceeded the disk boundaries.
+A target whose SCSI bus device 10 does not match the
+I
+bus 10 set in the DESTINATION 10 register has
+reselected the 33C938 during a Select-and-Transfer command. This interrupt occurs when the 33C938 is not in advanced mode. The state of the 33C938 is connected as
+an initiator.
+A status byte with a parity error was received during
+I
+Select-and-Transfer.
+An unexpected information phase was requested. MCI
+I
+defines the SCSI bus phase requested. This interrupt typically occurs when the phase changes before the Transfer
+Count reaches zero during a Transfer Info command or
+when an unexpected phase sequence occurs during a
+Select-and-Transfer command.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+SERVICE REQUIRED INTERRUPTS
+STATE
+SPECIFIC MEANING
+0
+The 33C93B has been reselected. The new state of the
+33C93B is connected as an initiator.
+0
+The 33C93B has been reselected in advanced mode.
+The Identify message from the target must be read from
+the DATA register. The ACK- signal is asserted. The new
+state of the 33C93B is connected as an initiator.
+The 33C93B has been selected (ATN- was not asserted).
+0
+The new state of the 33C93B is connected as a target.
+0
+The 33C93B has been selected (ATN- was asserted).
+The new state of the 33C93B is connected as a target.
+
+STATUS
+1000
+
+CODE
+0000
+
+1000
+
+0001
+
+1000
+
+0010
+
+1000
+
+0011
+
+1000
+1000
+
+0100
+0101
+
+T
+TI
+
+1000
+1000
+
+0110
+0111
+
+T
+
+1000
+
+1MCI
+
+I
+
+-
+
+The ATN- signal has been asserted.
+The target has disconnected. The new state of the
+33C93B is disconnected.
+Reserved for future use.
+The Wait-for-Select-and-Receive command has paused
+because the first byte of the incoming COB is not of a
+known command group. The host can examine the
+CDB1 register to determine from the opcode the number
+of command bytes expected. The new state of the
+33C93B is connected as a target. (Advanced
+mode only)
+The REO signal has been asserted while the 33C93B
+was in an idle initiator state. The information phase type
+should be examined. MCI defines the information phase
+I(SCSI bus phase) requested.
+
+3.1.21 Command Register
+The COMMAND register is used to issue the
+33C93B commands. The host should never write
+to this register when the CIP or INT bits (in
+AUXILIARY STATUS) are set and should never
+issue a Level" command when the BSY bit is set.
+The SINGLE-BYTE TRANSFER (SBT) bit in the
+COMMAND register affects the information transfer
+commands by disabling the TRANSFER COUNT
+register and specifying that only one byte is to be
+transferred. The previous contents of the TRANSFER COUNT register are not preserved.
+
+LUNTAR bit (bit 5) set, which occurs when the
+initiator wishes to communicate with a target
+routine. Issuing the command with the SBT bit set
+allows it to accept an Identify message for a target
+routine.
+Refer to the COMMANDS section for a description
+of the commands and their corresponding command codes.
+
+The SBT bit also affects the Wait-for-Select-andReceive command. Normally, this command does
+not accept as valid an Identify message with the
+ADVANCE INFORMATION 12110190
+
+30-19
+
+WD33C93B
+
+WD33C93B REGISTERS
+
+3.1.22 Data Register
+The DATA register provides an interface between
+the internal twelve byte FIFO and the host. During
+any type of information phase, the host may access
+this register with the processor, and during a SCSI
+Data phase, the host may also access this
+register through the DMAlWD interface.
+The processor, except in one case, should only
+access the DATA register when the DBR bit in the
+AUXILIARY STATUS register is true. The exception occurs when the 33C93B is reselected while
+operating in advanced mode: the processor must
+retrieve the Identify message from the target by
+reading the DATA register.
+The FFE bit in the AUXILIARY STATUS register
+enables the host to avoid polling DBR in some
+cases. This bit, when the host writes to the FIFO,
+acts as a FIFO empty indicator; thus, when set, the
+host can safely write up to eleven bytes to the FIFO
+without polling for DBR between each write.
+Similarly, when the transfer direction is to the host,
+the FFE bit indicates the FIFO full condition, and the
+processor can safely read twelve bytes from the
+FIFO without checking for DBR before each read.
+In both cases, the host should consider the FFE bit
+valid only when DBR is set.
+Two exceptions do exist, however, both when writing to the DATA register. First, after the initial setting
+of the FFE and DBR bits in response to a Transfer
+Info or Send command, the host may write twelve
+bytes to the FIFO without causing a FIFO overrun.
+Second, because the 33C93B splits a Transfer Info
+command into two separate transfers when
+responding to a message out phase, the host must
+not write the last message byte to the DATA register
+until the 33C93B specifically requests that byte.
+For instance, if the host wishes to send a (five-byte)
+Synchronous Data Transfer Request message, the
+first set of writes should contain only the first four
+bytes of the message. The host must then poll for
+DBR before writing the final byte.
+The processor normally should not access the
+DATA register during a Data phase unless the host
+has selected polled I/O mode by setting all of the
+DMA MODE SELECT bits in the CONTROL register
+to zero. In exceptional cases, such as aborting a
+transfer, the host may wish to switch to polled I/O
+
+30-20
+
+accesses. In this case, the processor may access
+the DATA register but must guarantee that the DMA
+interface is inactive, i.e. DACK- inactive in the
+DMA and Burst DMA modes and RCS- deasserted
+in WD Bus mode.
+
+3.1.23 Queue Tag Register
+The QUEUE TAG register holds the second byte of
+the Tag messages associated with the Select-andTransfer, Reselect-and-Transfer, and Wait-forSelect-and-Receive commands.
+The Select-and-Transfer and Reselect-and-Transfer commands send the contents of this register as
+the second byte of the Tag message during the Tag
+message out phase.
+The Select-and-Transfer and Wait-for-Select-andReceive commands place the received queue tag
+byte into this register during the Tag message in
+phase. The Select-and-Transfer commands, furthermore, compare the received byte with the previous contents of the register and generate an
+interrupt in the case of a mismatch.
+
+3.2
+
+RESET CONDITIONS
+
+3.2.1
+
+Hardware Reset
+
+A hard reset, caused by assertion of the MR- signal,
+will result in the following conditions:
+-
+
+The AUXILIARY STATUS register is reset to
+zero. The INT bit (and the INTRQ pin) is set to
+one when the hardware reset completes.
+
+-
+
+The OWN 10 register is reset to zero.
+
+-
+
+Advanced mode is disabled.
+
+-
+
+The ES, ER, and DSP bits in the SOURCE ID
+register are reset to zero.
+
+-
+
+The SCSI STATUS register is reset to zero.
+
+-
+
+The internal FIFO, internal transfer counter
+(not the host accessible register), offsets, and
+state machines are cleared.
+
+-
+
+The internal clock divider circuit is set to divide
+by two.
+
+ADVANCE INFORMATION 12110/90
+
+WD33C938
+
+WD33C938 REGISTERS
+
+The hard reset does NOT affect the following host
+accessible registers:
+-
+
+Registers 01 hex through 15 hex;
+
+-
+
+SOURCE ID (16 hex) register bits 0-3;
+
+-
+
+COMMAND register (18 hex);
+
+NOTE: The SCSI Soft Reset may be implemented
+by using the SCSI bus reset signal to reset the
+33C93B (for example, OR the host power on reset
+signal with the received SCSI bus reset (RST-)
+signal). The host may examine the registers that
+are not affected by the MR- signal to recover from
+the SCSI reset condition.
+
+3.2.2 Software Reset
+A soft reset, caused by executing the Reset command, will result in the following conditions:
+-
+
+INTRQ pin) is set to one when the Reset
+command is complete.
+-
+
+All SCSI bus signals are reset to the negated
+state.
+
+-
+
+The internal FIFO, internal transfer counter
+(not the host accessible register), offsets, and
+state machines are cleared.
+
+-
+
+The OWN ID register is interpreted and the
+clock divisor, host parity, and operating mode
+are configured.
+
+-
+
+Registers 01 hex through 16 hex are reset to
+zero. The COMMAND register (18 hex) is also
+reset to zero.
+
+-
+
+The SCSI STATUS register is set as
+commanded by the EAF bit in the OWN ID
+register.
+
+The DBR bit in the AUXILIARY STATUS
+register is reset to zero. The INT bit (and
+
+ADVANCE INFORMATION 12110190
+
+30-21
+
+WD33C938
+
+COMMANDS
+
+4.0
+
+COMMANDS
+
+4.1
+
+COMMAND LIST
+
+COMMAND
+CODE
+(HEX)
+
+COMMAND
+
+VALID
+
+LEVEL
+
+D, T I
+D,T
+I
+I
+T, I
+
+I
+I
+I
+I
+I
+
+D
+D
+D
+
+II
+II
+II
+
+00
+01
+02
+03
+04
+
+Reset
+Abort
+AssertATN
+NegateACK
+Disconnect
+
+05
+06
+07
+
+Reselect
+Select-with-ATN
+Select-without-ATN
+
+08
+09
+
+Select-with-ATN-and-Transfer
+Select-without-ATN-and-Transfer
+
+D
+D
+
+I
+I
+
+II
+II
+
+OA
+OB
+OC
+OD
+OE
+
+Reselect-and-Receive-Data
+Reselect-and-Send-Data
+Wait-for-Select-and-Receive
+Sedn-Status-and-Command-Complete
+Send-Disconnect-Message
+
+DT
+DT
+D,T
+T
+T
+
+II
+II
+II
+II
+II
+
+OF
+
+Set IDI
+
+D, T, I
+
+I
+
+10
+11
+12
+13
+14
+15
+16
+17
+
+Receive Command
+Receive Data
+Receive Message Out
+Receive Unspecified Info Out
+Send Status
+Send Data
+Send Message In
+Send Unspecified Info In
+
+T
+T
+T
+T
+T
+T
+T
+T
+
+18
+
+Translate Address
+
+D,T
+
+II
+
+20
+
+Transfer Info
+
+I
+
+II
+
+33C93B States:
+D = Disconnected
+T = Connected as a target
+I = Connected as an initiator
+
+30-22
+
+Command Leyels'
+I = Level I command
+II = Level II command
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+4.2
+
+33C93B COMMAND TYPES
+
+The 33C93B command set consists of two types of
+commands: Level I and Level II commands. Level
+I commands, except for the Reset and Abort commands, do not generate interrupts upon their completion; Level II commands always terminate with
+an interrupt. The host may issue a Level I command while a Level II command is executing. Issuing a Level II command while another Level II
+command is executing will cause unpredictable
+behavior of the part.
+The 33C93B operates in one of three "states" at any
+one time: disconnected, connected as a target, or
+connected as an initiator. In each state, the
+33C93B recognizes only certain commands as
+valid, as indicated in the command list above. An
+attempt to issue a Level II command invalid for the
+present 33C93B state will cause an "invalid command" interrupt. Level I commands issued in invalid states will be ignored.
+There are two types of Level II commands. 'Simple'
+Level II commands perform a single operation (e.g.
+selection) or single phase (e.g. Command phase).
+'Combination' Level II commands combine multiple
+phases into a single 33C93B command to minimize
+interrupt overhead.
+The initiator combination commands expect the
+target to follow common SCSI bus phase sequences. Any deviation causes an interrupt.
+The EDI and IDI bits in the CONTROL register and
+the SCC bit in the DESTINATION ID register
+enable and control chaining of target combinations
+command. Linking commands further decreases
+interrupt overhead by creating longer phase sequences. When using command chaining, the host
+must initialize all commands in the chain prior to
+starting the sequence.
+
+4.3
+
+33C93B SPECIFIC FEATURES
+
+The 33C93B incorporates two sets of features, both
+of which cause itto be incompatible with the original
+33C93 design and one which causes it to be incompatible with the 33C93A device. Both the 33C93A
+and 33C93B implement the 'advanced mode' features. Both devices, moreover, implement two features included in the 'really advanced' set of
+functions; however, in this mode, the 33C93B also
+
+generates additional interrupts, described below,
+making it incompatible with the 33C93A.
+Upon completion of a hardware reset, both sets of
+features are disabled. The host enables them by
+soft resetting the 33C93B with the EAF and RAF
+bits in the OWN ID register set appropriately. An
+advanced mode reset results in a 01 hex being
+loaded into the SCSI STATUS register instead of
+the 00 hex which normally results from a reset. This
+difference gives the host a method to deduce that
+a 33C93B is installed as opposed to a 33C93.
+
+4.3.1
+
+Advanced Mode Features
+
+UNEXPECTED RESELECTION: When in normal
+(33C93) mode, a reselection when idle (ER=1) or a
+reselection during a Select-and-Transfer command
+by an target whose ID does not match the one in
+the DESTINATION ID register causes an interrupt
+immediately after the reselection handshake _ _
+finishes. In advanced mode, the 33C93B will con- ~
+tinue to the Message In phase to fetch the Identify
+message. If the 33C93B was idle, the SCSI
+STATUS register will be set to 81 hex, and the
+Identify message will be in the DATA register. Ifthe
+33C93B was executing a Select-and-Transfer command, the SCSI STATUS register will be set to 27
+hex, and the logical unit number will be in the
+TARGET LUN register. In both cases, the
+SOURCE ID register will contain the SCSI bus ID
+of the reselecting target, and the ACK signal
+remains asserted so that the Identify message may
+be rejected if desired.
+Any message other than a valid Identify message
+will result in an unexpected message in phase
+interrupt. If the unexpected reselection occurs
+during a Select-and-Transfer command, a parity
+error will cause an unexpected message in phase
+interrupt only if the halt-on-SCSI-parity-error feature is enabled. If reselected from an idle state, the
+33C93B will halt on a parity error regardless of the
+setting of the HSP bit. The host can retrieve the
+byte with the Transfer Info command.
+UNKNOWN SCSI COMMAND GROUPS: The
+length of a SCSI Command Descriptor Block is
+determined by the group code, found in bits 7-5 of
+the first command byte. The SCSI standard
+(X3.131-1986) defines Group 0 (opcodes 00 to 1F
+hex), group 1 (opcodes 20 to 3F hex), and group 5
+(opcodes AD to BF hex) commands respectively as
+six, ten, and twelve byte commands. All other
+
+ADVANCE INFORMATION 12110190
+
+30-23
+
+WD33C93B
+
+COMMANDS
+
+command groups are undefined by that standard.
+In normal mode, the 33C93B assumes a length of
+six bytes for these undefined groups when executing a Select-and-Transfer or Wait-for-Select-andReceive command. In advanced mode, the
+33C93B behaves as follows:
+-
+
+Select-and-Transfer: When sending a
+command from an unknown group, the host
+load
+the
+expected
+command
+must
+length into the CDB SIZE register before
+issuing the Select-and-Transfer. The 33C93B
+uses this value to make sure the correct
+number of bytes are transferred in the
+Command phase.
+
+-
+
+Wait-for-Select-and-Receive: When receiving
+the CDB from the initiator, the 33C93B
+to
+examines
+the
+first
+CDB
+byte
+determine the command group. An undefined
+group results in an interrupt with the SCSI
+STATUS register set to 87 hex and the
+COMMAND PHASE register set to 31 hex.
+The host may examine the byte, available in
+the CDB 1ST register, to determine the TOTAL
+command length, which it then places into the
+CDB SIZE register, before resuming the
+Wait-for-Select-and-Receive command.
+After this interrupt, the 33C93B will only accept
+a
+Resume
+Wait-for-Select-and-Receive,
+Abort, Disconnect, or Reset command. All
+other commands are invalid. While the host
+processes the interrupt, the 33C93B continues
+to transfer the first six bytes of the SCSI
+command into its internal FIFO.
+
+DATA PHASE DIRECTION: Normally during a
+Select-and-Transfer command, the target solely
+determines the direction of the Data phase. The
+33C93B will not detect a mismatch between this
+direction and the one expected by the host and will
+proceed with the transfer. In advanced mode, the
+33C93B compares the DPD bit in the DESTINATION ID register with the state of the 1/0- signal on
+the SCSI bus. If the expected and actual directions
+do not match, an interrupt will occur with an
+'unexpected phase' status in the SCSI STATUS
+register. Setting the DF bit in the DESTINATION ID
+register disables this feature.
+
+30-24
+
+4.3.2
+
+Really Advanced Features
+
+MICROCODE REVISION: The 33C93B will load
+the revision number of the microcode into the
+CDB1 register during the reset sequence when
+really advanced features are enabled.
+IMMEDIATE HALT: The 33C93B normally checks
+for parity errors during a synchronous transfer and
+for the attention condition during both
+asynchronous and synchronous transfer on 4096byte boundaries. With really advanced features
+enabled, the 33C93B continuously checks for these
+conditions and upon detecting one issues an Abort
+command.
+PROTOCOL ERROR: The 33C93B, if it detects a
+possible transfer corruption caused by noise on the
+REQ- and ACK- signals, will abort a Send or
+Receive command and generate a 25 hex interrupt.
+The detection scheme can not catch all possible
+failures due to the nature of the SCSI transfer
+protocols; however, this feature does provide some
+protection against data integrity faults.
+UNEXPECTED BUS FREE INTERRUPTS: The
+33C93B will generate either an 85 hex interrupt or
+a 41 hex interrupt in the event that a glitch on the
+SEL- signal causes the device to disconnect from
+the SCSI bus.
+4.4
+
+LEVEL I COMMANDS
+
+4.4.1
+
+Reset (00 hex)
+
+The Reset command initializes the 33C93B according to the contents of the OWN 10 register and as
+described in the RESET CONDITIONS section.
+The host may issue the Reset command while in
+any state, forcing the 33C93B into a disconnected
+state; any command executing at that time will
+terminate. Upon completion of the Reset command, the 33C93B will generate an interrupt with
+the SCSI STATUS register containing a 00 hex or a
+01 hex depending upon the contents of the OWN
+ID register at the time of the reset.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+4.4.2 Abort (01 hex)
+
+Abort processing will not ,complete until the
+contents of the FIFO are flUshed to the host.
+
+The Abort command is valid in the disconnected
+and connected-as-a-target states. The Abort command has different effects depending on the cu rrent
+state and the command that is currently executing,
+as described below:
+-
+
+Disconnected State: In this state, the Abort
+command will halt a selection or reselection
+attempt of a Select, Select-and-Transfer,
+Reselect, or Reselect-and-Transfer command
+or will halt the Wait-for-Select-and-Receive
+command before selection. Aborting a
+selection or reselection attempt before the
+33C93B has won arbitration immediately
+returns the 33C93B to an idle state and
+generates a "paused/aborted" interrupt. If the
+33C93B has already won arbitration, the Abort
+command causes the 33C93B to remove the
+Bus ID bits from the SCSI bus while
+maintaining assertion of SEL-. If the target
+does not respond within at least 200 us by
+asserting BSY-, the 33C93B will go to a Bus
+Free condition and generate a "paused/
+aborted" interrupt. If the target does respond
+within this time period, a "successful
+completion" interrupt will result instead.
+The Abort command, in addition, will terminate
+a Select- and-Transfer command if the target
+has disconnected from the bus. The 33C93B
+will generate an 85 hex interrupt and will be in
+the Disconnected state. If the target is still
+connected at the time the Abort command is
+recognized, the command will be ignored.
+
+- Target State: In this state, the Abort command
+will terminate a Receive or Send command or
+the Data phase portion of a Reselectand-Transfer command. The following rules
+apply when issuing an Abort:
+-
+
+During a Send or Reselect-and-Send
+command, the 33C93B removes the data
+request (DRQ-, DBR, etc.) at an arbitrary
+time during the abort procedure. The host
+must NOT service any data request once it
+has written the Abort command to the
+COMMAND register until the 33C93B
+generates an interrupt. Abort processing
+will not complete until the contents of the
+FIFO are flushed to the SCSI bus.
+- During a Receive or Reselect-and-Receive
+command, the host must CONTINUE to
+service any data request from the 33C93B.
+
+After completion of the Abort command, the
+TRANSFER COUNT register contains the
+number of bytes that were not transferred
+across the SCSI bus. The 33C93B remains in
+the connected-as-a-target state and will accept
+any target mode command, including a resume
+of the aborted command.
+
+4.4.3
+
+Disconnect (04 hex)
+
+The Disconnect command, valid in the initiator and
+target states, immediately terminates an active
+Level II command, causes the immediate release
+of all bus signals, and returns the 33C93B to a
+disconnected state. In the target role, the Disconnect command is the normal procedure for disconnecting from the SCSI bus following the information
+transfer phase. In the initiator role, this command
+can be used to release the bus following a timeout ~
+condition.
+--
+
+4.4.4 Assert ATN (02 hex)
+The Assert ATN command, valid only when connected as an initiator, allows the initiator to inform
+the target that it has a message pending. The
+target should respond with a Message Out
+Phase. ATN- is automatically negated:
+-
+
+before the last byte of a Transfer Info command
+issued in response to the Message Out phase;
+
+- when the Identify message out is transferred
+to the target during a Select-and-Transfer
+command;
+- when a SCSI Bus Free phase occurs.
+The Select-with-ATN and Select-with-ATN-andTransfer commands will cause the 33C93B to assert ATN- automatically prior to the release of SEL-.
+
+4.4.5
+
+Negate ACK (03 hex)
+
+The Negate ACK command causes the 33C93B to
+release ACK- which for some reason it has held
+active. Holding ACK- active allows the host to
+respond to information it has just received before
+the target continues the current phase or proceeds
+to the next one. The 33C93B, therefore, does not
+
+ADVANCE INFORMATION 12110190
+
+30-25
+
+WD33C93B
+
+COMMANDS
+
+negate ACK- before generating an interrupt in the
+following cases:
+-
+
+after successful completion of a Message-In
+Transfer Info command;
+
+-
+
+after detection of a parity error on any received
+SCSI information when the HALT on SCSI
+PARITY ERROR (HSP) bit is set;
+
+-
+
+after unexpected reselection in advanced
+mode;
+
+-
+
+after reception of a save-data-pointer message
+during a Select-and-Transfer command;
+
+-
+
+after reselection by a process with a queue tag
+which differs from the contents of the QUEUE
+TAG register; and
+
+-
+
+after reception of a status byte with a parity
+error during a Select-and-Transfer command.
+
+ACK- negates automatically for all initiator transfers
+other than Message In transfers. Host parity errors,
+moreover, do not affect the ACK- signal.
+Before completing a Message In phase, the initiator, upon examining the message, may decide
+to reject it and send a "MESSAGE REJECT" message to the target or, upon detecting a parity error
+in the message, may decide to send a "MESSAGE
+PARITY ERROR" message to the target. Similarly,
+if a parity error causes a transfer command to
+terminate, the initiator may wish to send an "INITIATOR DETECTED ERROR" message to the
+target. In all cases, the initiator signals its intent to
+send a message by asserting ATN before issuing
+the Negate ACK command.
+
+4.4.6
+
+Set 101 (OF hex)
+
+SIMPLE LEVEL II COMMANDS
+
+4.5.1
+
+Select-with-ATN (06 hex)
+
+Select-with-ATN, valid only in the disconnected
+state, instructs the 33C93B to select a target.
+Before issuing this command, the host should write
+the SCSI Bus 10 of the target device into the OESTINATJON 10 register. The Select-with-ATN command causes the 33C93B to begin bus arbitration.
+If another device selects or reselects the 33C93B
+during arbitration, the Select-with-ATN command
+aborts and a "service required" interrupt (8x hex)
+will occur.
+Should the 33C93B win the arbitration, it asserts
+SEL- and ATN-, places the target and initiator Bus
+lOs on the SCSI data bus, and then deasserts BSY-.
+At this time, a timeout sequence begins, its length
+determined by the value in the TIMEOUT PERIOO
+register. If the target does not respond with BSYwithin the allotted time, the 33C93B begins a selection abort sequence as described in the Abort command description. If the target has not responded
+by the end of this sequence, the Select-with-ATN
+command terminates. If the target responds before
+the timeout period has elapsed or before the selection abort sequence completes, the 33C93B
+negates the SEL- signal, enters the connected-asan-initiator state, and generates a "successful completion" interrupt.
+A successful abort of Select-with-ATN, either
+through a timeout or through the Abort command,
+leaves the 33C93B disconnected from the SCSI
+bus and results in a "paused/aborted" interrupt.
+
+4.5.2
+
+The Set 101 command provides support for overlapped SCSI operations in the initiator role. The
+host may start a SCSI operation with the 101 bit
+reset, allowing the 33C93B to handle target disconnects and reconnects and thus minimizing the interrupt handling overhead. When it wishes to start
+a second operation, the host issues the Set 101
+command so that if the current target disconnects
+and releases the SCSI bus, the 33C93B will
+produce an interrupt. The host may now start the
+second operation without having had to wait for the
+first operation to complete.
+
+30-26
+
+4.5
+
+Select-without-ATN (07 hex)
+
+The Select-without-ATN command is identical to
+the Select-with- ATN command except that ATN- is
+not set during the Selection Phase.
+
+4.5.3
+
+Reselect (05 hex)
+
+The Reselect command is identical to the Selectwithout-ATN command except that the 1/0- signal
+is asserted upon completion of the Arbitration
+Phase. Successful completion of the Reselect
+command results in the 33C93B being connected
+as a target.
+
+ADVANCE INFORMATION 12/10190
+
+WD33C93B
+
+COMMANDS
+
+4.5.4
+
+Receive (10-13 hex)
+
+The four Receive commands-·-Receive Command,
+Receive Data, Receive Message Out, and Receive
+Unspecified Info Out---differ from each other only
+by the state of the C/D- and MSG- pins and the type
+of data that is transferred. These commands, valid
+only in the target role, correspond to those SCSI
+information phases where the 1/0- pins is not asserted; the type of the Receive command selected
+determines the state of the C/D- and MSG- outputs
+according to the following chart (1 =asserted):
+
+RECEIVE COMMAND OP- MSG C/O
+TYPE
+~ODE
+
+I/O
+
+Receive
+Receive
+Receive
+Receive
+
+0
+0
+0
+0
+
+Oommand
+Data
+Message Out
+Unspecified
+Info Out
+
+10
+11
+12
+13
+
+0
+0
+1
+1
+
+1
+0
+1
+0
+
+minimum transfer period applies to both
+synchronous and asynchronous transfers. The
+33C938 also examines the CONTROL register to
+determine what mode of data transfer will occur on
+the host interface.
+In all other cases, asynchronous transfers occur on
+the SCSI bus, and polled I/O transfers occur on the
+host interface.
+
+4.5.5
+
+The four Send commands---Send Status, Send
+Data, Send Message, and Send Unspecified Info--like the four Receive commands, differ from each
+other only by the state of the C/D- and MSG- pins
+and the type of data that is transferred. These
+commands, valid only in the connected-as-a-target
+state, correspond to those SCSI phases where the
+1/0- pin is asserted; the type of Send command
+selected determines the state of the C/D- and MSG- ~I
+outputs according to the following chart (1 =as- . .
+serted):
+
+SEND
+
+A Receive command will complete or terminate
+under any of the following conditions:
+-
+
+The host has read the specified number of
+bytes from the DATA register;
+
+-
+
+The 33C938 detects a parity error on one of
+the received data bytes when Halton-SCSI-Parity is enabled;
+
+-
+
+The 33C938 detects ATN- when Halt-on-ATN
+is enabled;
+
+-
+
+The 33C938 detects a transfer protocol error;
+
+-
+
+The host aborts the Receive command;
+
+-
+
+The host issues a Disconnect command; or
+
+-
+
+The 33C938 resets because of a Reset
+command or assertion of MR-.
+
+Any conclusion of a Receive command, except
+those due to a Disconnect command or a Reset,
+leaves the 33C938 ina connected-as-a-target state
+and the number of bytes not yet transferred in the
+TRANSFER COUNT register.
+In the case of a Receive Data command, the
+33C938 evaluates the contents of the
+SYNCHRONOUS TRANSFER register. Any offset
+other than zero selects synchronous transfers. The
+
+Send (14-17 hex)
+
+Send
+Send
+Send
+Send
+
+COMMAND OP- MSG C/O
+TYPE
+PODE
+
+I/O
+
+1
+0
+1
+0
+
+1
+1
+1
+1
+
+Status
+Data
+Message In
+Unspecified
+Info Out
+
+14
+15
+16
+17
+
+0
+0
+1
+1
+
+A Send command will complete or terminate under
+any of the following conditions:
+-
+
+The initiator has acknowledged receipt of the
+specified number of bytes;
+
+-
+
+The 33C938 detects a parity error on one of
+the received data bytes when Halton-Host-Parity is enabled;
+
+-
+
+The 33C938 detects ATN- when Halt-on-ATN
+is enabled;
+
+-
+
+The 33C938 detects a transfer protocol error;
+
+-
+
+The host aborts the Receive command;
+
+-
+
+The host issues a Disconnect command; or
+
+-
+
+The 33C938 resets because of a Reset
+command or assertion of MR-.
+
+ADVANCE INFORMATION 12110190
+
+30-27
+
+WD33C93B
+
+COMMANDS
+
+Any conclusion of a Send command, except those
+due to a Disconnect command or a Reset, leaves
+the 33C93B in a connected- as-a-target state and
+the number of bytes not yet transferred in the
+TRANSFER COUNT register.
+In the case ofthe Send Data command, the 33C93B
+evaluates the contents of the SYNCHRONOUS
+TRANSFER register. Any offset other than zero
+selects synchronous transfers. The minimum
+transfer period applies to both synchronous and
+asynchronous transfers. The 33C93B also examines the CONTROL register to determine what
+mode of data transfer will occur on the host interface.
+In all other cases, asynchronous transfers occur on
+the SCSI bus, and polled I/O transfers occur on the
+host interface.
+
+indicates that the FIFO contains data available for
+the host to read.
+The Transfer Info command normally terminates or
+pauses after the specified number of bytes has
+been sent or received. For a non- Message-In
+transfer, the 33C93B will generate a "successful
+completion" interrupt after the target asserts REQto begin a new phase. For a message-in transfer,
+the 33C93B does not wait for the next phase but
+instead leaves ACK- asserted and generates a
+"paused/aborted" interrupt. The processor can
+then assert ATN- if it intends to reject the message
+before negating ACK-.
+The Transfer Info command may terminate for a
+number of different reasons which are listed below:
+-
+
+The host issues a Disconnect command;
+
+-
+
+The 33C93B resets in response to the
+assertion of MR- or the Reset command;
+
+The Transfer Info command allows the host to send
+and receive data, command, status, and message
+information when operating in the connected-asan-initiator state.
+
+-
+
+The target negates the BSY- signal;
+
+-
+
+The target unexpectedly changes phase, i.e.
+before the specified number of bytes have
+been transferred; or
+
+The first REQ- assertion following connection as an
+initiator results in a "service required" interrupt. The
+processor should examine the SCSI STATUS
+register to determine the type and direction of information transfer requested by the target, and then
+issue a Transfer Info command in response. The
+33C93B will also generate an interrupt each time
+the target device requests a new type of information
+transfer phase.
+
+-
+
+The incoming data has a parity error and the
+corresponding halt-on-parity-error bit is set.
+
+4.5.6 Transfer Info (20 hex)
+
+The processor either should initialize the TRANSFER COUNT register prior to issuing this command
+or issue the command with the SBT bit in the
+COMMAND register set. Also, if responding to a
+request for a Data phase, the processor should set
+the DMA mode select bits in the CONTROL register
+and specify the offset and transfer period in the
+SYNCHRONOUS TRANSFER register before
+issuing the Transfer Info command.
+Behavior of the DBR status bit during Transfer Info
+depends upon the direction of the transfer. When
+the bytes move from the initiator to the target, i.e.
+an out phase, the DBR bit is set whenever the FIFO
+can accept additional data from the host. When the
+transfer proceeds in the opposite direction, DBR set
+
+30-28
+
+The Disconnect command, the hard and soft resets,
+and the negation of BSY- will leave the 33C93B in
+a idle, disconnected state, and in these cases, the
+value in the TRANSFER COUNT register will not
+accurately reflect the number of bytes that did not
+transfer across the SCSI interface. Except for the
+issuance of the Disconnect command, these occur.
+rences will result in an interrupt.
+The 33C93B checks for a parity error on each byte
+it receives; however, for synchronous transfers, the
+internal microcontroller will not recognize an error
+until the transfer reaches a 4096- byte boundary.
+The response to the parity error, furthermore,
+depends upon the direction of the transfer. If the
+parity error occurs on received SCSI data, the
+33C93B will halt the SCSI interface, leaving ACKasserted to halt the target, and generate a "terminated" interrupt once the host has flushed any
+remaining bytes from the FIFO. Similarly, if the
+error occurs on data received on the host interface,
+the 33C93B will halt the host interface and generate
+a "terminated" interrupt after any bytes remaining
+in the FIFO are flushed to the SCSI bus; the ACK-
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+COMMANDS
+
+signal, however, will not remain asserted. In both
+cases, the TRANSFER COUNT register will indicate the number of bytes that did not successfully
+transfer to or from the target.
+
+An overflow during any calculation will result in a
+"terminated" interrupt.
+
+If it detects a parity error but the appropriate halton-parity- error bit is not set, the 33C93B will indicate the error by setting the PARITY ERROR bit in
+the AUXILIARY STATUS register but will not terminate the Transfer Info command.
+
+4.6
+
+COMBINATION LEVEL II COMMANDS
+
+4.6.1
+
+Select-and-Transfer (08 and 09 hex)
+
+An unexpected phase change will cause a "terminated" interrupt, and as in the case of a parity
+error, the TRANSFER COUNT register contains
+the number of bytes yet to be transferred. If an
+unexpected phase change occurs during a SCSI
+synchronous transfer, the host should test the
+PARITY ERROR bit in the AUXILIARY STATUS
+register, as the phase change most likely occurred
+before the internal microcontroller recognized the
+parity error. In the asynchronous case, the 33C93B
+stops on the byte with the error; therefore, it will
+always detect a parity error before a phase change
+in this mode.
+
+4.5.7 Translate Address (18 hex)
+The Translate Address Command performs a logical-address to physical-address translation to
+facilitate processing of certain SCSI commands
+involving logical addresses up to 32 bits in
+length. To perform this mapping, the processor first
+loads the logical address into the LOGICAL ADDRESS register, the disk parameters into the
+TOTAL CYLINDER NUMBER, TOTAL HEAD NUMBER, and TOTAL SECTOR NUMBER registers,
+and zeros into the HEAD NUMBER and
+CYLINDER NUMBER registers. It then issues the
+Translate Address command, and upon receiving
+a "successful completion" interrupt, reads the
+CYLINDER NUMBER, HEAD NUMBER, and SECTOR NUMBER registers to obtain the logical address.
+The Translate Address command can ~Iso compensate for spare sectors. To use this feature the host
+instead of zeroing the HEAD NUMBER and
+CYLINDER NUMBER registers, should load the
+number of spare sectors per cylinder into the HEAD
+NUMBER register and the logical number of sectors
+per cylinder into the CYLINDER NUMBER register
+prior to issuing the command.
+
+The Select-and-Transfer commands greatly reduce
+the host or local processor interrupt-handling burden by enabling the 33C93B's internal
+microprocessor to manage the lOW-level SCSI
+protocol. Use of these command may result in as
+few as one interrupt per SCSI operation. Selectand-Transfer commands, used when in an initiator
+role, typically consist of at least the following SCSI
+phases: an Arbitration phase, a Selection phase, a
+Command phase, a Status phase, and a Command-Complete Message phase. These commands optionally include Data and additional
+Message In phases.
+The Select-and-Transfer commands expect the target to follow a certain sequence of SCSI bus
+phases, and any deviation from this expected
+protocol results in a "terminated" interrupt. As the
+different phases complete, the 33C93B updates the
+COMMAND PHASE register, so upon termination
+of the command, the host processor may examine
+this register to identify the cause of the termination
+and the state of the SCSI operation.
+The two Select-and-Transfer commands differ from
+each other only by whether or not the 33C93B
+asserts ATN- pin during the Selection phase. The
+ability to assert ATN- during Selection supports the
+SCSI message protocol which calls for an Identify
+Message Out phase following the selection. When
+executing a Select-with-ATN-and-Transfer command, the 33C93B expects the target to request a
+~essage Out phase immediately following selection, whereas for a Select-without-ATN-and-Transfer command, it expects the target to begin the
+Command phase once selection completes.
+The 33C93B begins the Select-and-Transfer command by arbitrating for the bus and selecting a
+target just as during a Select command. If the
+target does not respond before a timeout occurs,
+the Select-and-Transfer command halts and
+generates an interrupt. Failure to complete the
+Selection phase is also indicated by the fact that the
+COMMAND PHASE register contains all zeros. If
+
+ADVANCE INFORMATION 12110190
+
+30-29
+
+..
+
+WD33C93B
+
+COMMANDS
+
+the selection is successful, no interrupt is
+generated, and the COMMAND PHASE register
+will be set to a 10 hex.
+After completing the Selection phase, the 33C93B
+begins a Message Out phase if ATN- has been
+asserted or a Command phase if not. When the
+target requests a Message Out phase, the 33C93B
+responds by automatically sending an Identify message byte, which it generates by exclusive-ORing
+the contents of the TARGET LUN register with 80
+hex if the ENABLE RESELECTION bit in the
+SOURCE ID register is reset or with CO hex if the
+bit is set. After it has sent the Identify message, the
+33C93B will set the COMMAND PHASE register to
+20 hex.
+Normally, bit 6 of the Identify message mirrors the
+state of the ENABLE RESELECTION bit; however,
+the host may occasionally wish to allow the 33C93B
+to respond to a reselection attempt but not enable
+target disconnects during another SCSI operation.
+Setting both the ENABLE RESELECTION bit and
+the DOK bit of the TARGET LUN register allows the
+33C93B to respond to reselection but results in an
+Identify message byte which does not enable target
+disconnects.
+Following the Identify message out, if bits 3 or 4 of
+the DESTINATION ID register specify a tag message and if ATN- is asserted, the 33C93B expects
+the target to request the first byte of a tag message.
+It responds to this request by sending the selected
+tag message code and incrementing the COMMAND PHASE register. The 33C93B now expects
+the target to ask for the second byte and services
+this request by sending the contents of the QUEUE
+TAG register and incrementing the COMMAND
+PHASE register to 22 hex.
+The 33C93B expects a Command phase to follow
+the Message Out phase or, if ATN- is not asserted
+during selection, the Selection phase. The 33C93B
+obtains the SCSI command from the internal COMMAND DESCRIPTOR BLOCK registers and sends
+either six, ten, or twelve bytes of command information depending on the first byte of the SCSI command. The Select-and-Transfer commands
+support Group 0 (6-byte CDB), Group 1 (10-byte
+CDB), and Group 5 (12-byte CDB) SCSI commands. The length of any other command defaults
+to six bytes unless advanced mode is enabled (see
+7.3.1). The COMMAND PHASE register, set to 30
+
+30-30
+
+hex before the first Command byte is sent, increments with each byte transferred, so for a
+twelve-byte CDB command, the COMMAND
+PHASE register will contain 3C hex when all bytes
+of the CDB have been transferred.
+After the Command phase, the 33C93B anticipates
+a Data phase if the TRANSFER COUNT register
+contains a non-zero value, a Status phase if this
+register contains zero, or, in either case, a Message
+In phase if the ENABLE RESELECTION bit is set
+and the DOK bit is not. The 33C93B assumes a
+pending disconnection if the target requests a Message In phase. Thus, when enabled, the 33C93B
+expects to receive either a Save-Data-Pointer message (02 hex) or a Disconnect message (04 hex).
+If a message byte has a parity error and the HSP
+bit is set or if the target sends an unsupported
+message, the 33C93B will generate a "terminated"
+interrupt, alerting the processor of this fact and
+allowing it to retrieve the message byte via the
+Transfer Info command.
+Reception of a correct Save-Data-Pointer message
+results in a "paused/aborted" interrupt, terminating
+the Select-and-Transfer command with the COMMAND PHASE register set to 41 hex. The processor can tlien save the SCSI data pointer before
+resuming the Select-and-Transfer command.
+A Disconnect message, on the other hand, will not
+cause an interrupt; instead, command execution
+continues with the COMMAND PHASE register set
+to 42 hex and with Bus Free as the next expected
+phase. The 33C93B updates the COMMAND
+PHASE register to 43 hex when the target actually
+disconnects and, if the IDI bit is set, suspends the
+Select-and-Transfer command with an 85 hex interrupt. If, however, the IDI bit is reset, the 33C93B
+sits in an idle state, waiting for the target to reconnect. Reselection by the original target generates
+no interrupt and increments the COMMAND
+PHASE register to 44 hex; reselection by a different
+target will cause a "terminated" interrupt. In advanced mode, this interrupt will not occur until the
+33C93B has also received the Identify message
+from the target and placed the logical unit number
+in the target LUN register.
+Following the original target res election, the
+33C93B expects an Identify Message In phase
+from the target. This single-byte message should
+be of the binary form: 10rOOttt, where rand ttt
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+match the corresponding bits in the TARGET LUN
+register. Successful completion of this phase
+results in the COMMAND PHASE register being
+updated to 45 hex or 70 hex depending upon
+whether or not the 33C93B expects a tag message,
+deduced from the settings of the TGO and TG1 bits
+of the DESTINATION ID register.
+The target, in the latter case, should send a Simple
+Queue tag message immediately after the Identify
+message. Upon receiving and validating the message byte, the 33C93B increments the COMMAND
+PHASE register and awaits the second message
+byte from the target. When it receives this byte, the
+33C93B sets the COMMAND PHASE to 45 hex and
+then compares the byte to the contents of the
+QUEUE TAG register. If the two values match,
+command execution proceeds; if the two values
+differ, the 33C93B stores the received byte in the
+QUEUE TAG register, generates a "Different
+Process Reselected" interrupt (26 hex) and terminates the Select-and-Transfer command.
+The 33C93B anticipates a data phase immediately
+after the Command phase or after successfully
+receiving the proper messages after reselection.
+To handle the Data phase, the Select-and-Transfer
+command effectively performs a Transfer Info command. The contents of the TRANSFER COUNT
+register determines the number of bytes to transfer;
+the value in the SYNCHRONOUS TRANSFER
+register specifies the type and minimum period of
+the transfers on the SCSI interface; and the DMA
+mode select bits in the CONTROL register specify
+the protocol to follow on the host interface.
+
+Any number of disconnection/reconnection cycles
+may occur during the data transfer so long as the
+target follows the defined message protocol. The
+COMMAND PHASE register will cycle through the
+disconnect phases (41-45,70,71) with each disconnection and subsequent reconnection until all of the
+data has been transferred, at which point it is set to
+46 hex. During the data transfer, a disconnection
+will cause an interrupt regardless of the setting of
+the IDI bit to allow the host to reinitialize the external
+DMA controller.
+The start of the Status phase, assuming the transfer
+count has reached zero, advances the COMMAND
+PHASE register to 47 hex. If the status byte has no
+parity error or if the HSP bit is not set, the internal
+microcontroller places the byte in the TARGET LUN
+register and updates the COMMAND PHASE
+register to 50 hex. If the byte contains an error, a
+27 hex interrupt will occur, and the command will
+terminate with ACK- asserted.
+•
+The 33C93B expects the target to send a Command-Complete message (00 hex) to indicate that
+the SCSI operation has completed. Upon receiving
+this message, the 33C93B sets the COMMAND
+PHASE register to 60 hex, and if the EDI bit is reset,
+generates "successful completion" interrupt. The
+processor should then read the TARGET LUN
+register to examine the target status. Another interrupt will occur when the SCSI bus goes to the Bus
+Free state or when the target again asserts REQto begin a new information transfer phase (as in
+SCSI linked commands). Setting the EDI bit suppresses the "successful completion" interrupt until
+the target disconnects from the SCSI bus.
+
+ADVANCE INFORMATION 12110190
+
+30-31
+
+WD33C93B
+
+COMMANDS
+
+The following table summarizes the possible values that the COMMAND PHASE register can assume
+during the Select-and-Transfer commands and their meanings relative to command termination:
+
+COMMAND
+PHASE
+
+MEANING
+
+00
+10
+
+No SCSI bus device has been selected. The 33C93B is in the disconnected state.
+The target has been selected. The 33C93B is now in the connected-as-an-initiator
+state.
+An Identify message has been sent to the target.
+The Tag message code has been sent to the target.
+The Queue tag has been sent to the target.
+Command phase has started, no bytes transferred.
+Command phase, x bytes have been transferred.
+Save-Data-Pointer message received.
+Disconnect message received, bus not free.
+Target has disconnected (SCSI Bus Free) following a successful transfer of a Disconnect message. The 33C93B is now in the disconnected state.
+The 33C93B has been reselected by the target with a SCSI bus ID which matches
+the value in the DESTINATION ID register. The 33C93B is now in the connected as
+an initiator state.
+The 33C93B has received an matching Identify message and, if expected, a matching
+Tall messaRe from the tarllet.
+The number of bytes specified in the TRANSFER COUNT register have been transferred to or from the target during the Data phase.
+The target has begun a Receive Status phase.
+The 33C93B has successfully received a Status byte from the target and stored it in
+the TARGET LUN register.
+The 33C93B has successfully received a Command-Complete message from the tarI get.
+The 33C93B has received an Identify message from the target, and the Logical Unit
+Number matches the value in the TARGET LUN register. A tag message is expected.
+The 33C93B has received a Simple-Queue Tag message.
+
+20
+21
+22
+30
+3X
+41
+42
+43
+44
+
+45
+46
+47
+50
+60
+70
+71
+
+The host processor may resume a Select-and-Transfer sequence by issuing the command when the
+33C93B is in the Connect-as-an- initiator state. When resuming the Select-and-Transfer, the 33C93B
+examines the COMMAND PHASE register to determine where to restart execution of the command. This
+feature, in conjunction with the INTERMEDIATE DISCONNECT INTERRUPT enabled, supports mUltithreaded or overlapped I/O on the SCSI bus.
+
+30-32
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+The following table briefly describes the valid settings of the COMMAND PHASE register when resuming
+a Select-and-Transfer command:
+COMMAND
+PHASE
+10
+20
+22
+30
+41
+42
+44
+45
+46
+
+50
+60
+70
+
+4.6.2
+
+MEANING
+Resume after target selection is complete.
+Resume after Identify message out. Command or message phases are expected;
+an implied Negate ACK occurs.
+Resume after Tag message out. Command phase is expected; an implied Negate
+ACK occcurs.
+Resume when Command phase has begun[REQ- asserted).
+Resume after Command phase or after a Save-Data-Pointer message. Data,
+Status, or Message In phases are expected. An implied Negate ACK occurs.
+Resume to complete Disconnect Message In; an implied Negate ACK occurs.
+Resume after reselection by a target. An Identify Message In expected.
+Resume to transfer more data in a data transfer phase. May expect Status or Message In as well. An implied Negate ACK occurs.
+Resume after the Data phase has completed, expecting Status phase or a SaveData-Pointer/Disconnect Message In phase. An implied Negate ACK does NOT
+occur.
+Resume to complete a Status phase; an implied Negate ACK occurs.
+Resume to complete a Command Complete message from the target; an implied
+Negate ACK occurs.
+Resume to receive a Simple-Queue Tag message. An implied Negate ACK occurs.
+
+Reselect-and-Transfer (OA and 08 hex)
+
+The Reselect-and-Transfer commands consist of
+the Reselect-and- Receive-Data and the Reselectand-Send-Data commands. These commands
+cause the 33C938 to execute certain common
+SCSI bus phase sequences as a target following a
+Reselection phase. These phases, determined by
+which command is sent and the setting of the EDI
+bit in the CONTROL register and the SCC bit in
+the DESTINATION 10 register, are summarized
+below. Refer to the descriptions of the SendStatus-and-Command-Complete and Send- Disconnect-Message commands for details on those
+sequences'.
+•
+
+Reselect-and-Receive command, EDI=O, and
+SCC=don't care:
+- Reselection phase;
+- Send Message In;
+- Receive Data Out phase;
+- Completion interrupt.
+
+•
+
+Reselect-and-Send command, EDI=O, and
+SCC=don't care:
+- Reselection phase;
+- Send Message In;
+- Send Data In phase;
+- Completion interrupt.
+
+•
+
+Reselect-and-Receive command, EDI=1, and
+SCC=O:
+- Reselection phase;
+- Send Message In;
+- Receive Data Out phase;
+- Chain to Send-Status-and-CommandComplete
+
+•
+
+Reselect-and-Send command, EDI=1, and
+SCC=O:
+Reselection phase;
+Send Message In;
+Send Data In phase;
+Chain to Send-Status-and-CommandComplete;
+
+ADVANCE INFORMATION 12110190
+
+30-33
+
+WD33C93B
+•
+
+•
+
+COMMANDS
+
+Reselect-and-Receive command, EDI=1, and
+SCC=1:
+- Reselection phase;
+- Send Message In;
+- Receive Data Out phase;
+- Chain to Send-Disconnect-Message;
+Reselect-and-Send command, EDI=1, and
+SCC=1:
+- Reselection phase;
+- Send Message In;
+- Send Data In phase;
+- Chain to Send-Disconnect-Message;
+
+The Message In phase consists of an Identify message and, if bits 3 and 4 in the DESTINATION ID
+register are not both zero, a Simple-Queue Tag
+
+message. The commands send the contents of the
+QUEUE TAG register as the second byte of the Tag
+message.
+If the reselection attempt times out during a
+Reselect-and-Transfer command, if ATN- is asserted and HA=1, or if a parity error is detected on
+a incoming data byte (and HSP=1 or HHP=1,
+depending on data direction), the command will
+terminate with the appropriate status. In this case,
+the COMMAND PHASE register will indicate the
+last successfully completed phase. If these conditions do not occur and all phases complete normally, the command will end with a "successful
+completion" interrupt at this point if EDI=O. However, if EDI=1, no interrupt is generated and command chaining occurs (as described above).
+
+/
+
+30-34
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+The following table summarizes the possible values that the COMMAND PHASE register can assume
+during the Reselect-and- Transfer commands and their meanings relative to command termination. See
+other command descriptions for additional values that can occur when command chaining is used.
+
+COMMAND
+PHASE
+
+MEANING
+
+00
+
+No SCSI bus device has been reselected. The 33C938 is in the disconnected
+state.
+The 33C938 has successfully reselected the initiator. The 33C938 is now in the
+connected as a target state.
+The Identify message has been successfully sent to the initiator.
+The requested data transfer has been completed.
+
+10
+20
+46
+
+The host processor may resume a Reselect-and-Transfer sequence by issuing the command when the
+33C938 is operating in the connected-as-a-target state. When resuming, the 33C938 examines the
+COMMAND PHASE register to determine where to restart the Reselect-and-Transfer command. This
+feature in conjunction with the capability to chain to other combination commands allows longer SCSI bus
+sequences to be performed by a single command.
+
+The following table briefly describes the meaning of the COMMAND PHASE register when resuming a
+Reselect-and-Transfer command:
+
+COMMAND
+PHASE
+
+MEANING
+
+10
+20
+
+Resume after initiator reselection is complete; start with Identity Message Out.
+Resume after Identity message out; start with data transfer phase. If TRANSFER
+COUNT is zero, no data transfer phase occurs. In either case, a chain to another
+combination command can occur if enabled.
+
+ADVANCE INFORMATION 12110190
+
+30-35
+
+WD33C93B
+4.6.3
+
+COMMANDS
+
+Wait-for-Select-and-Receive (OC hex)
+
+The Wait-for-Select-and~Receive causes the
+33C93B to idle until it is selected by an initiator, at
+which time the 33C93B will enter the target mode
+and automatically request message and command
+information. Optionally, the 33C93B will then disconnect if it receives a SCSI read command. Use
+of this command therefore eliminates the interrupts
+which normally occur after selection and after each
+subsequent SCSI bus phase and minimizes busconnect time during SCSI read commands.
+If the initiator asserts ATN- during the Selection
+phase, the 33C93B first executes an implied
+"Receive Message Out" command to get the Identify message and the Tag message, if any, from
+theinitiator. The 33C93B stores the Identify message byte in the TARGET LUN register; it encodes
+the Tag message code into bits 3 and 4 of the
+DESTINATION 10 register and places the queue
+tag into the QUEUE TAG register. Normally, the
+Wait-for-Select-and- Receive command rejects an
+Identify message with the LUNTAR bit (bit 5) set;
+however, issuing this command with the SBT bit
+in the COMMAND REGISTER set allows the
+33C93B to accept an Identify message for a target
+routine.
+
+Message In phase and stores the SCSI command
+information in the COB registers. It determines the
+number of command bytes to request from the
+SCSI group code in the first byte of the COB.
+At this point, a "successful completion" interrupt
+normally will occur to allow the local processor to
+interpret the SCSI COB. However, by setting the
+EDI bit prior to issuing a Wait-for-Select-andReceive command, the host enables the 33C93B
+to perform an automatic disconnect when it
+receives a SCSI read command. Thus, when
+EDI=1 and the 1st COB byte received contains
+a six, ten, or twelve byte read command code, the
+33C93B will suppress the interrupt and chain to the
+Send-Disconnect-Message command. Completion
+of this sequence causes an interrupt and normally
+indicates a transition to the bus free condition.
+Refer to the Send-Disconnect-Message command
+description for more details.
+If the message or command information received
+from the initiator is invalid, the Wait-for-Select-andReceive command will be terminated and the appropriate status reported. As usual, the
+COMMAND PHASE register will indicate which
+phases of the command completed before the
+error condition occurred.
+
+The 33C93B executes an implied "Receive Command" following the Selection phase or Identify
+
+30-36
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+The following table summarizes the possible values that the COMMAND PHASE register can assume
+during the Wait-for-Select-and-Receive command and their meanings relative to command termination.
+See other command descriptions for additional values that can occur when command chaining is used.
+
+COMMAND
+PHASE
+
+MEANING
+
+00
+10
+
+The 33C938 has not been selected. The 33C938 is in the disconnected state.
+The 33C938 has been successfully selected by the initiator. The 33C938 is now
+in the connected-as-a- taroet state.
+The 33C938 has received a message byte (Identify) from the initiator. The TARGET LUN register holds the byte.
+The 33C938 has received a message byte (Tag code) from the initiator. The
+QUEUE TAG register contains the byte.
+The 33C938 has received a message byte (Queue Tag) from the initiator. The
+QUEUE TAG register contains the byte.
+The 33C938 is ready to begin Command phase. The SCSI bus phase lines and
+REQ- have not been asserted.
+The 33C938 has transferred one command byte from the initiator. The SCSI
+STATUS may indicate the need for the host to load the command size into the
+OWN ID reoister.
+The 33C938 has transferred x command bytes from the initiator.
+
+20
+21
+22
+30
+31
+
+3x
+
+A "paused/aborted" interrupt in conjunction with command phases 20 and 21 indicate that the respective
+message byte was not valid. A parity error in the Identify message results in the appropriate interrupt and
+the COMMAND PHASE register set to 10 hex. This combination allows the host to retry the transfer by
+merely reissuing the command to resume the operation from the proper phase. A parity error in the other
+two message bytes results in a command phase of 21 or 22, indicating which byte contained the error.
+The host processor may resume the Wait-for-Select-and-Receive command by issuing the command when
+the 33C938 is operating in the connected-as-a-target state. When resuming this command, the 33C938
+examines the COMMAND PHASE register to determine where to restart the Wait-for-Select-and-Receive
+command. This feature, in conjunction with the capability to chain to other combination commands, allows
+longer SCSI bus sequences to be executed by a single command.
+
+ADVANCE INFORMATION 12110190
+
+30-37
+
+WD33C938
+
+COMMANDS
+
+The following table briefly describes the meaning of the COMMAND PHASE register when resuming a
+Wait-for-Select-and-Receive command:
+COMMAND
+PHASE
+10
+20
+21
+30
+31
+
+4.6.4
+
+MEANING
+Resume after selection by the initiator is complete. Start with Identify Message
+Out if ATN is asserted; otherwise, start with Command phase.
+Resume after a Message Out; check the received message in the TARGET
+LUN register for a valid Identify message.
+Resume after Identify message verified. Start with Tag Message Out if ATN is
+asserted; otherwise, start with Command phase.
+Resume after Identify Message Out. Start with Command phase.
+Resume after the 33C93B has transferred one command byte from the initiator.
+This resume point is used only when an unknown group code has been
+detected in advanced mode and the command size has been loaded into the
+OWN ID register.
+
+Send·Status-and·Command·Complete
+(00 hex)
+
+The Send-Status-and-Command-Complete command, valid in the target role, combines the Status
+and the Command-Complete Message phases
+used to complete a SCSI operation into one command. This command also supports linked SCSI
+operations by optionally sending a Linked-Command-Complete message after the transferring the
+status byte. Bits in the CDB12 register corresponding to the standard linked command control bits in
+the CDB control the choice of Linked-CommandComplete messages.
+Before issuing this command, the host loads the
+status byte into the CDB11 register and the link
+control bits from the current CDB into the CDB12
+register. Note that the bits used by the 33C93B are
+identical in meaning to the SCSI standard link control bits. Consequently, the host processor may
+simply load the control byte from the current SCSI
+command into CDB12 to obtain the correctfunction.
+As the command execution progresses, the COMMAND PHASE register will update to indicate the
+last phase completed.
+The possible sequences caused by this command
+are as follows:
+
+30-38
+
+-
+
+CDB12 bitO=O, bit1 =don't care: The status byte
+in CDB11 is sent, followed by a Command
+Complete message (00 hex), followed by a
+transition to bus free.
+A "successful
+completion" interrupt now occurs.
+
+-
+
+CDB12 bitO=1, bit1=0: The status byte in
+CDB11 is sent, followed by a LinkedCommand-Complete message (OA hex). If the
+DF bit in the DESTINATION ID register is not
+set, a chain to the command fetch portion of
+Wait-for-Select-and-Receive then occurs to
+initiator.
+obtain the next CDB from· the
+33C93B command execution proceeds as
+described for that command.
+
+-
+
+CDB12 bitO=1, bit1=1: The status byte in
+CDB11 is sent, followed by a LinkedCommand-Complete-with-Flag message (OB
+hex). If the DF bit in the DESTINATION ID
+register is not set, a chain to the command
+fetch portion of Wait-for-Select-and-Receive
+then occurs to obtain the next CDB from the
+initiator. 33C93B command execution proceeds as described for that command.
+
+Assertion of ATN- when HA=1 , assertion of MR-, or
+execution of a Disconnect or Reset command will
+terminate this command.
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+COMMANDS
+
+The following table summarizes the possible values that the COMMAND PHASE register can assume
+during the Send-Status-and-Command-Complete command and their meanings relative to command
+termination. See other command descriptions for additional values that can occur when command chaining
+is used.
+
+COMMAND
+PHASE
+00
+50
+60
+61
+
+MEANING
+No operation occurred; typically, ATN- was found to be asserted.
+Status phase transfer completed.
+Command Complete message transfer completed.
+Linked Command Complete message transfer completed.
+
+The host processor may resume the Send-Status-and-Command-Complete command by loading the
+appropriate value into the COMMAND PHASE register prior to issuing the command. This feature, in
+conjunction with the capability to chain to other combination commands, allows for a single command to
+invoke longer SCSI bus sequences.
+
+The following table briefly describes the meaning of the COMMAND PHASE register when resuming a
+Send-Status-and-Command-Complete command:
+
+COMMAND
+PHASE
+
+MEANING
+
+50
+
+Resume after status phase. Start with command complete message. May chain
+to command fetch if selected to do so.
+
+4.6.5 Send-Disconnect-Message (OE hex)
+The Send-Disconnect-Message command, a target-mode command, instructs the 33C93B to send a
+Disconnect message and then to deassert the BSY- signal, causing a logical disconnection of the device
+from the SCSI bus. Also, a Save-Data-Pointer message will precede the Disconnect message if the host
+sets the IDI bit prior to issuing this command.
+Assertion of ATN- when HA=1, assertion of MR-, or execution of a Disconnect or Reset command will
+terminate this command. The following table summarizes the possible values that the COMMAND PHASE
+register can assume during the Send-Disconnect-Message and their meanings relative to command
+termination.
+
+COMMAND
+PHASE
+00
+41
+42
+43
+
+MEANING
+No operation occurred; typically, ATN- was found to be asserted.
+The Save-Data-Pointer message was transferred.
+The Disconnect message was transferred.
+The bus free state occurred after the Disconnect message was transferred. The
+33C93B is now in the disconnected state.
+
+ADVANCE INFORMATION 12110190
+
+30-39
+
+III
+
+WD33C93B
+
+5.0
+
+ELECTRICAL CHARACTERISTICS
+
+ELECTRICAL CHARACTERISTICS
+
+ABSOLUTE MAXIMUM RATINGS
+Voltage on any pin with respect to GND ......... -0.5 V to +7.0 V
+Operating temperature ...................... 0" to 70" C
+Storage temperature ........................ _55" to + 125" C
+Power dissipation .......................... 500 mW
+Input Static Discharge Protection
+............. 1200 V pin to pin
+DC OPERATING CHARACTERISTICS ......... Ta = 0" to 70" C,
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. VCC = +5 V ± - 0.25 V, GND = 0 V
+
+SYMBOL
+
+CHARACTERISTIC
+
+ilL
+10L1
+IOL2
+VIH
+VIL
+VIHYS
+
+INPUT LEAKAGE
+SCSI OUTPUT LEAKAGE (INACTIVE)
+OUTPUT LEAKAGE (TRI-STATE)
+INPUT HIGH VOLTAGE
+INPUT LOW VOLTAGE
+SCHMITT TRIGGER INPUT
+HYSTERESIS (ALL SCSI PINS]
+OUTPUT HIGH VOLTAGE
+SCSI OUTPUT LOW VOLTAGE (1)
+OUTPUT LOW VOLTAGE (ALL
+OTHERS)
+SUPPLY CURRENn
+
+VOH
+VOL1
+VOL2
+ICC
+
+MIN
+
+MAX
+
+CONDITIONS
+
+uA
+uA
+uA
+V
+V
+V
+
+VIN = .4 to VCC
+VOUT = .5 to VCC
+VOUT = .4 to VCC
+
+0.5
+0.4
+
+V
+V
+V
+
+10 = -400 uA
+10=48.0 mA
+10=4.0 mA
+
+36
+
+mA
+
+Ta = +25" C
+
+10
+50
+10
+2.0
+0.8
+0.3
+2.4
+
+(1) REQ- and ACK- will sink 57 mA at 0.5 volts.
+
+30-40
+
+UNITS
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.0
+
+TIMING CHARACTERISTICS
+
+Timing characteristics are valid over the entire
+operating temperature (O to 70· C) and voltage
+(4.75 to 5.25 Volts) ranges, and are referenced to
+and from a low voltage of 0.8 volts and a high
+voltage of 2.0 volts. All outputs are assumed to
+have a load capacitance of 50 picofarads. Additionally, open-drain outputs DRQ- and DACK- are
+tested with 10 mA current source pull-ups as loads.
+The SCSI asynchronous timings, furthermore, assume that the minimum assertion and deassertion
+times specified for the chosen transfer period have
+been met. For example, with a transfer period of
+four, the 33C93B, acting as a target, will assert
+REQ- for at least 200 ns. If the initiator takes more
+than 200 ns from the leading edge of REQ- to assert
+ACK-, then the 33C93B will release REQ- within
+175 ns. However, if the initiator responds with ACKwithin 200 ns of REQ-, the 33C93B may not meet
+the 175 ns maximum.
+These timings, moreover, apply only during a burst
+and assume that the FIFO has space or data available to allow the burst to continue. For instance,
+the time from the REQ- in low to ACK- out low for
+the first byte of a new phase or of a 4096-byte burst
+will depend on the time needed by the 33C93B and
+possibly the host microprocessor to respond to the
+
+new phase or to set up for the next 4096-byte block.
+Clearly, the 33C93B can not meet the175 ns timing
+in these situations. In addition, the internal
+microcontroller controls the handshaking of messages bytes, like the Identify and Disconnect messages, during execution of the combination
+commands, and again, in these cases, the 33C93B
+will not meet the asynchronous transfer timings
+given in the following tables.
+Many of the timing parameters that follow are
+defined in terms of an internal clock cycle time
+Tcyc. The cycle time depends upon the input clock
+frequency, the clock divisor selected, and, for
+synchronous transfers and if the input clock frequency is 16 MHz or greater, the setting of the FSS
+bit in the SYNCHRONOUS TRANSFER register.
+Section 6.2.16 provides the details on calculating
+Tcyc for a given set of these parameters. For
+normal SCSI transfers, the resulting clock has a
+frequency from 4 MHz to 5 MHz; for fast SCSI
+transfers, the frequency falls in the range from 8
+MHz to 10 MHz. For non-transfer timings, such as
+those pertaining to arbitration and bus release, Tcyc
+corresponds to the value for normal SCSI transfers.
+
+ADVANCE INFORMATION 12110190
+
+30-41
+
+III
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.1
+
+PROCESSOR/DMA INTERFACE
+
+6.1.1
+
+ClK
+
+SYMBOL
+tcp
+teh
+tel
+
+elK
+
+CHARACTERISTIC
+CLOCK PERIOD
+CLOCK HIGH
+CLOCK LOW
+
+i·
+
+te p
+
+/
+
+\
+., :.
+
+:..::
+
+te H
+
+MIN
+
+MAX
+
+UNITS
+
+50
+20
+20
+
+125
+
+ns
+ns
+ns
+
+.J
+
+\
+
+tel~
+
+Figure 4. Clock Timing
+
+6.1.2
+
+MR-
+
+SYMBOL
+
+tmr
+
+CHARACTERISTIC
+MR- PULSE WIDTH
+
+,....~--- t M R ------l.~i
+
+MR
+
+--------~\~!
+
+__________~v~----------Figure 5. MR- Timing
+
+30-42
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.3 Processor Write (Indirect Addressing)
+SYMBOL
+tavwl
+tel wi
+
+CHARACTERISTIC
+
+MIN
+
+twe
+tdvwh
+twhai
+
+AO VALID TO WE- LOW
+CS- LOW TO WE- LOW
+CS- LOW, WE- LOW TIME
+DATA VALID TO WE- HIGH
+WE- HIGH TO AO- INVALID
+
+twheh
+twhdi
+twhw1
+
+WE- HIGH TO CS- HIGH
+WE- HIGH TO DATA INVALID
+WE- HIGH TO WE- OR RE- LOW
+
+MAX
+
+UNITS
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+0
+0
+120
+70
+0
+-5
+0
+100
+
+..
+
+ALE
+~~ tAVWL-----.~
+
+:
+
+~
+
+:
+
+tWHAI
+
+:...--
+
+tWHCH
+
+~...--
+
+:
+
+AO
+~~
+
+tCLWL
+
+~
+
+~...--
+
+CS
+:
+
+~
+
+-
+
+WE
+
+pO-D7, DP
+
+\.
+
+...
+
+tWE
+
+T
+
+:~ tDvWH----..i ...
+
+XXXXXXXXXXXXXXXXXXXXxxx
+
+tWHNL
+
+tWHDI
+
+·L
+
+.:
+
+YJXXXXXXXXXXX
+
+Figure 6. Processor Write Timing
+
+ADVANCE INFORMATION 12110190
+
+30-43
+
+WD33C938
+6.1.4
+
+TIMING CHARACTERISTICS
+
+Processor Read (Indirect Addressing)
+
+SYMBOL
+tavrl
+tclrl
+tre
+trldv
+trhch
+trhdi
+trhrl
+trhai
+
+MIN
+
+CHARACTERISTIC
+AO VALID TO RE- LOW
+CS- LOW TO RE- LOW
+CS- LOW, RE- LOW TIME
+RE- LOW TO DATA VALID
+RE- HIGH TO CS- HIGH
+RE- HIGH TO DATA INVALID
+RE- HIGH TO RE- OR WE- LOW
+RE- HIGH TO AO INVALID
+
+MAX
+
+0
+0
+180
+
+10000
+162
+
+-5
+5
+100
+0
+
+40
+
+UNITS
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+ALE
+
+'''-- tAVRL~
+
+~
+
+tRHAI
+
+,~
+
+~
+
+tRHCH
+
+!~
+
+AO
+~:
+
+tCLRL
+
+:~
+
+CS
+tRE
+
+01(
+
+RE
+tRLDV
+pO-D7, DP
+
+\'
+-----.j
+
+t
+
+j
+
+»:\
+
+\
+
+I
+
+:....-
+
+,0lil(
+
+Figure 7. Processor Read Timing
+
+30-44
+
+tRHRL
+
+ADVANCE INFORMATION 12110190
+
+tRHDI
+
+·L
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.5
+
+Processor Write (Direct Addressing)
+
+SYMBOL
+taval
+talai
+talwl
+tclwl
+twe
+tdvwh
+twhch
+twhdi
+twhwl
+tahal
+
+CHARACTERISTIC
+ADDR VALUE TO ALE LOW
+ALE LOW TO ADDR INVALID
+ALE LOW TO WE- LOW
+CS- LOW TO WE- LOW
+CS- LOW, TO WE- LOW TIME
+DATA VALID TO WE- HIGH
+WE- HIGH TO CS- HIGH
+WE- HIGH TO DATA INVALID
+WE- HIGH TO WE- OR RE- LOW
+ALE HIGH TO ALE LOW
+
+MIN
+
+MAX
+
+UNITS
+
+1000
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+40
+0
+90
+0
+120
+70
+-5
+
+0
+100
+40
+
+AO
+
+~itAHAL~
+ALE
+
+CS
+
+WE
+
+----....i tAVAL :
+
+PO-D7, DP
+
+~
+
+tALAI
+
+ADDRESS
+
+Figure 8. Processor Write (Direct) Timing
+
+ADVANCE INFORMATION 12110190
+
+30-45
+
+WD33C93B
+6.1.6
+
+TIMING CHARACTERISTICS
+
+Processor Read (Direct Addressing)
+
+SYMBOL
+
+taval
+talai
+talrl
+tclrl
+tre
+trldv
+trhch
+trhdi
+trhrl
+tahal
+
+CHARACTERISTIC
+ADDR VALID TO ALE LOW
+ALE LOW TO ADDR INVALID
+ALE LOW TO RE- LOW
+CS- LOW TO RE- LOW
+CS- LOW, RE- LOW TIME
+RE- LOW TO DATA VALID
+RE- HIGH TO CS- HIGH
+RE- HIGH TO DATA INVALID
+RE- HIGH TO RE- OR WE- LOW
+ALE HIGH TO ALE LOW
+
+MIN
+
+40
+0
+30
+0
+180
+
+MAX
+
+UNITS
+
+10000
+162
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+-5
+5
+
+40
+
+100
+40
+
+1000
+
+AO
+
+~itAHAL~
+ALE
+i ---.l
+
+CS --~'~\i
+
+"
+
+tCLRL i~
+
+0-D7, DP
+
+:
+------..! tAVAL :
+
+tRE
+
+.. : II(
+
+:.
+
+r------"""'\:
+
+Ii
+
+:
+
+:r---------.
+
+ADDRESS
+
+ADVANCE INFORMATION 12110190
+
+\
+
+'----I
+
+tR HRL ---l.~:
+
+i~~!~--t-R-LD-V-~-""!---'!-< tRHDI >!
+
+Figure 9. Processor Read (Direct) Timing
+
+30-46
+
+i~
+
+/
+'
+
+\
+
+tALAI
+
+tRHCH
+
+I
+
+~ tALRL ----...: II(
+
+RE
+
+~
+
+L
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.7
+
+DMA Write
+
+SYMBOL
+tdlwl
+tdlqh
+twr
+twhwl
+tdvwh
+twhdh
+twhdi
+tdhql
+
+CHARACTERISTIC
+DACK- LOW TO WE- LOW
+DACK- LOW TO DRO- HIGH
+WE- PULSE WIDTH
+WE- HIGH TO WE- LOW
+DATA VALID TO WE- HIGH
+WE- HIGH TO DACK- HIGH
+WE- HIGH TO DATA INVALID
+DACK- HIGH TO DRO- LOW
+
+: . . - tOLOH ---.:
+
+---..i
+
+MAX
+
+UNITS
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+0
+75
+50
+100
+25
+0
+0
+0
+
+~ tOHOL ~
+
+-------+-------.\
+
+Ii-:
+
+ORO ( O U T ) " \ :
+!
+OACK (IN)
+
+MIN
+
+tOLWL
+
+,..-
+
+~:::.
+
+~---
+
+tWHOH
+
+1..-
+
+------,L
+
+Ii-'
+
+\:
+
+lOll(
+
+tWR ----:l.~:! ....OII(E__---tw HWL-----:l.~::
+
+WE ------~\~:__~__~/ri----------~~
+AA~lAA,~AA,AAJ~AAAA~/\AAN:J~t-ov-W--H->+<-:---tw-H-O-I~i~
+
+00-07, OP
+
+Figure 10. DMA Write Timing
+
+ADVANCE INFORMATION 12110/90
+
+30-47
+
+WD33C938
+6.1.8
+
+TIMING CHARACTERISTICS
+
+DMA Read
+
+SYMBOL
+tdlrl
+tdlqh
+trd
+trhrl
+trldv
+trhdh
+trhdi
+tdhql
+
+CHARACTERISTIC
+DACK- LOW TO RE- LOW
+DAKC- Low TO DRQ- HIGH
+RE- PULSE WIDTH
+RE- HIGH TO RE- LOW
+RE- LOW TO DATA VALID
+RE- HIGH TO DACK- HIGH
+RE- HIGH TO DATA INVALID
+DACK- HIGH TO DRQ- LOW
+
+~ tOLQH
+ORQ (OUT)
+
+\
+
+i
+------..!
+
+OACK (IN)
+
+---+i
+Jr--.
+
+tOLRL
+
+!:..-
+
+00-07, OP
+
+0
+75
+80
+100
+70
+0
+5
+0
+
+40
+
+UNITS
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+1~ tOHQL ~
+
+-----i---~\"--:
+~:.
+
+tRHOH
+
+__
+
+!..-
+
+tRO - - - - : l..
+~. :! ....
+E _ - - - t R HR L---~"~;
+
+----~\~I~~I
+-----..! tRLOV !.
+..!
+
+L
+
+tRHOI
+
+!..-
+
+--------------~{~--------~)~.----------
+
+Figure 11. DMA Read Timing
+
+30-48
+
+MAX
+
+\~:--~----~~/~.--~~
+!.....
+E---
+
+RE
+
+MIN
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.9 WD-BUS Buffer Write
+SYMBOL
+tQhsl
+tslwv
+two
+twhwl
+twldv
+twhdi
+tqlsh
+tshwi
+twhsh
+tslwl
+twlQI
+tslQI
+
+CHARACTERISTIC
+ORO HIGH TO RCS- LOW
+RCS- LOW TO WE- VALID
+WE- PULSE WIDTH (1)
+WE- HIGH TO WE- LOW (A)
+WE- LOW TO DATA VALID
+WE- HIGH TO DATA INVALID
+ORO LOW TO RCS- TRISTATE
+RCS- TRISTATE TO WE- INVALID
+WE- HIGH TO RCS- TRISTATE
+RCS- LOW TO WE- LOW
+WE- LOW TO ORO LOW (2)
+RCS- LOW TO ORO LOW (3)
+
+MIN
+0
+
+MAX
+40
+20
+
+-5
+
+UNITS
+ns
+ns
+Tcyc
+Tcyc
+ns
+ns
+Tcyc
+ns
+ns
+ns
+ns
+ns
+
+1-10ns
+1-10ns
+20
+1-
+
+8
+
+10
+100
+
+0
+60
+
+55
+75
+
+(1) Two + Twhwl = 2*Tcyc
+
+III
+
+(2) Guarantees that only one more byte will be transferred.
+(3) Guarantees that only one byte will be transferred.
+
+~ tQHSL >i......£:-----tSLQL ---~• ..;: ......E - - - tQLSH
+ORQ (IN)
+
+~~:--~:--------~\~;-------1----1
+i....- tSLWL
+
+-
+
+ReS (OUT)
+
+.:.
+
+---..: tSHWI :~
+
+tWLQL --.:
+
+------.\\-i__----:-_______--'1
+----..i tSLWV : •
+
+WE (OUT)
+
+.:
+
+i----two----.; t W HW L : .
+
+------'~
+
+I
+
+:
+
+• : tw HS Hl.--
+
+----oJ1
+
+\L....-i
+
+L
+
+----..:t WLOV :""'-': tWHOI :_____
+
+00·07, OP
+
+----~
+
+:
+
+X~------.)~------I
+
+Figure 12. WD BUS Buffer Write Timing
+
+ADVANCE INFORMATION 12110190
+
+30-49
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.1.10 WD-BUS Buffer Read
+SYMBOL
+tqhsl
+tslrv
+tro
+trhrl
+tdvrh
+trhdi
+tqlsh
+tshri
+trhsh
+tslrl
+trlql
+tslql
+
+CHARACTERISTIC
+ORO HIGH TO RCS- LOW
+RCS- LOW TO RE- VALID
+RE- PULSE WIDTH (1)
+RE- HIGH TO RE- LOW (1)
+DATA VALID TO RE- HIGH
+RE- HIGH TO DATA INVALID
+ORO LOW TO RCS- TRISTATE
+RCS- TRISTATE TO RE- INVALID
+RE- HIGH TO RCS- TRISTATE
+RC$- LOW TO RE- LOW
+RE- LOW TO ORO LOW (2)
+RCS- LOW TO ORO LOW (3)
+
+MIN
+0
+
+MAX
+40
+20
+
+-5
+
+UNITS
+ns
+ns
+Tcyc
+Tcyc
+ns
+ns
+Tcvc
+ns
+ns
+ns
+ns
+ns
+
+1-10ns
+1-10ns
+20
+0
+
+8
+
+10
+100
+
+0
+60
+
+55
+75
+
+(1) Tro + Trhrl = 2*Tcyc
+(2) Guarantees that only one more byte will be transferred.
+(3) Guarantees that only one byte will be transferred.
+
+--.l tOHSL ~.....c:~---tSLOL - - - - - }• .::......c:~- tOLSH
+,
+
+ORO (IN)
+;--
+
+~CS (OUT)
+
+J
+
+:
+
+.;
+
+,\~!____~:---
+
+~ tSLRL -----..;.- tRLOL ~
+
+-----..i tSHRI i~
+
+--~\,
+
+I,'
+
+,
+
+~·--------~i--------------------------J·
+
+~! tSLRV !....c:c-----i.~:
+
+RE (OUT)
+
+_ _-----"
+
+\'
+
+tRO--.jtR HRL
+
+I!
+
+!c:
+
+\
+
+. : tR HSH~
+
+/
+
+L
+
+~: 'OVRH! tRHOI!~
+00-07
+
+OP
+
+~~-.JX"--------''I:IttIt/!I:ItI
+Figure 13. WD BUS Buffer Read Timing
+
+30-50
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.11 Burst DMA Write
+SYMBOL
+tdlwl
+twlqh
+twr
+twhwl
+tdvwh
+twhdh
+twhdi
+tdhql
+
+ORO (OUT)
+
+CHARACTERISTIC
+DACK- LOW TO WE- LOW
+WE- LOW TO DRQ- HIGH
+WE- PULSE WIDTH
+WE- HIGH TO WE- LOW
+DATA VALID TO WE- HIGH
+WE- HIGH TO DACK- HIGH
+WE- HIGH TO DATA INVALID
+DACK- HIGH TO DRQ- LOW
+
+MIN
+0
+
+MAX
+50
+
+30
+30
+18
+0
+0
+0
+
+1
+
+UNITS
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+\,,--1_
+
+Figure 14. Burst DMA Write Timing
+
+ADVANCE INFORMATION 12110190
+
+30-51
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.1.12 Burst DMA Read
+SYMBOL
+tdlrl
+tdldv
+trlqh
+trd
+trhrl
+trhdv
+trhdh
+trhdi
+tdhql
+
+MIN
+0
+50
+
+CHARACTERISTIC
+DACK- LOW TO RE- LOW
+DACK- LOW TO DATA VALID
+RE- LOW TO DRO- HIGH
+RE- PULSE WIDTH
+RE- HIGH TO RE- LOW
+RE- HIGH TO DATA VALID
+RE- HIGH TO DACK- HIGH
+RE- HIGH TO DATA INVALID
+DACK- HIGH TO DRO- LOW
+
+-OACK (IN)
+
+\,
+
+~
+
+tOLRL
+
+RE
+
+~tOLOV
+00-07, OP
+
+4
+
+.. :... tRO
+
+\
+
+~:
+
+X
+
+80
+0
+5
+0
+
+40
+
+tRLOH !~
+
+i
+
+n
+
+T
+
+tRHRL
+
+-:
+
+!...-
+
+)
+
+\
+
+\
+tRHOH
+
+tOHOL
+
+/
+
+~ t RHOV ~---.i tRHOI !--c:------
+
+X
+
+X
+
+Figure 15. Burst DMA Read Timing
+
+30-52
+
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+60
+
+/
+
+"
+
+UNITS
+
+30
+30
+
+~i
+ORO (OUT)
+
+MAX
+
+ADVANCE INFORMATION 12110190
+
+0
+
+!~
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.1.13INTRQ
+SYMBOL
+tihrl
+tri
+trhil
+tilih
+
+CHARACTERISTIC
+INTRa HIGH TO RE- LOW
+RE- PULSE WIDTH
+RE- HIGH TO INTRa LOW
+INTRa LOW TO INTRa HIGH
+
+MIN
+0
+180
+0
+100
+
+i~tRHIL
+INTRQ
+
+_--II
+
+!
+
+r-- ----'i
+
+MAX
+
+UNITS
+ns
+ns
+ns
+ns
+
+100
+
+:
+-----..: 01(
+
+\1
+
+tlLlH
+
+.
+.:
+
+/
+
+tRI
+
+RE
+
+--------~\~i
+
+____~/~-----------------
+
+Figure 16. INTRQ Timing
+
+ADVANCE INFORMATION 12110190
+
+30-53
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2
+
+SCSI INTERFACE
+
+6.2.1
+
+Arbitration
+
+SYMBOL
+tbhbl
+tblio
+tblsl
+
+BSY
+
+CHARACTERISTIC
+BSY- ,SEL- IN HIGH TO BSY- OUT LOW
+BSY- OUT LOW TO BUS 10 OUT
+BSY- OUT LOW TO SEL- OUT LOW
+
+~
+
+MAX
+
+UNITS
+
+12
+,50
+2.2
+
+16
+50
+
+eye
+ns
+us
+
+\!-!_ _ _ _ _ _ _ _ _ __
+
+!..
+SEL
+
+OBx
+
+MIN
+
+tBLSL ----~...
+~i
+
+\t..-l - -
+
+:~tBLlO~
+
+--------:---~\~--------
+
+Igroup
+
+Tgroup
+
+--------------------------------------------------------------NOTE:
+
+Tgroup
+
+signals driven by a target = 1/0, CIO, MSG and REQ.
+
+Igroup
+
+signals driven by an initiator
+
+= ATN and ACK.
+
+Figure 17. Arbitration Timing
+
+30-54
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.2 Selecting A Target (As An Initiator)
+SYMBOL
+tsloo
+tovao
+taobh
+tbhbv
+tblsh
+
+CHARACTERISTIC
+
+MIN
+
+SEL- OUT LOW TO "OR-ED" 10 OUT
+"OR-ED" 10 OUT VALID
+TO ACK-, ATN- OUT
+ACK- ,ATN- OUT VALID
+TO BSY- OUT HIGH
+BSY- OUT HIGH
+TO BSY- IN LOW VALID
+BSY- IN LOW TO SEL- OUT HIGH
+
+MAX
+
+UNITS
+
+1.2
+100
+
+us
+ns
+
+100
+
+ns
+
+400
+
+ns
+
+100
+
+ns
+
+BSY
+
+____________~I
+
+SEL
+
+\ ~__________________~________~/r'---
+
+\~--~
+:-< tBHBV >-:-< tSLSH >-:
+
+~;
+
+OBx
+
+tSLOO
+
+:..--
+
+----------~(=============================================
+i~ tOVAO ~:~ tAOBH~:
+
+ATN
+
+--------------~(~\----------------------I
+
+ACK
+
+Tgroup
+
+---------------------------------------------------------------
+
+NOTE:
+
+Tgroup = signals driven by a target = 1/0, CIO, MSG and REQ.
+
+Figure 18. Timing-Initiator Selecting a Target
+
+ADVANCE INFORMATION 12110190
+
+30-55
+
+..
+
+WD33C93B
+6.2.3
+
+TIMING CHARACTERISTICS
+
+Response To Selection (As A Target)
+
+SYMBOL
+tslbh
+tivbh
+tbhbl
+tbloi
+tblsh
+tavsh
+tshio
+
+BSY
+
+SEl
+
+CHARACTERISTIC
+SEL- IN LOW TO BSY- IN HIGH
+"OR-ED" 10 VALID IN
+TO BSY- IN HIGH
+SEL- LOW, 10 VALID, BSY- HIGH
+TO BSY- OUT LOW
+BSY- OUT LOW
+TO "OR-ED" 10 INVALID IN
+BSY- OUT LOW TO SEL- IN HIGH
+ATN- VALID IN TO SEL- IN HIGH
+SEL- IN HIGH TO Tgroup OUT
+
+______~I
+
+--'f
+
+t'lBH
+
+ACK
+
+UNITS
+ns
+ns
+
+200
+
+us
+
+0.4
+0
+
+ns
+
+0
+0
+100
+
+ns
+ns
+ns
+
+________________
+
+I
+
+~- tBHBl~ t BlSH .
+~!
+
+tBlOI
+
+l~
+
+----~(~--------------~)~:~----------­
+i"'--
+
+~ tAVSH
+
+ATN
+
+MAX
+
+0
+0
+
+\~
+
+~ tIVBH:___
+DBx
+
+MIN
+
+--------------------~(~--~-----------.........
+
+---
+
+........
+
+__
+
+....
+
+_
+
+..
+
+_-----_
+
+.............
+
+__
+
+................
+
+__
+
+....
+
+__
+
+~
+
+.........
+
+_
+
+..
+
+-
+
+....
+
+-
+
+..
+
+oo
+
+........
+
+--
+
+...
+
+tSHIO
+
+Tgroup
+
+NOTE:
+
+Tgroup
+
+-
+
+Figure 19. Timing-Target Response
+
+30-56
+
+-
+
+= signals driven by a target = 1/0, C/D, MSG and REO.
+
+ADVANCE INFORMATION 12110190
+
+-
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.4
+
+Reselecting An Initiator (As A Target)
+
+SYMBOL
+tsloo
+tovio
+tiobh
+tbhbv
+tblsh
+
+CHARACTERISTIC
+SEL- OUT LOW TO "OR-ED" 10 OUT
+"OR-ED" 10 OUT VALID
+TO I/O AND Tgroup OUT VALID
+I/O AND Tgroup OUT VALID
+TO BSY- OUT HIGH
+BSY- OUT HIGH
+TO BSY- IN LOW VALID
+BSY- IN LOW TO SEL- OUT HIGH
+
+BSY
+
+MIN
+
+1.2
+100
+
+UNITS
+us
+ns
+
+100
+
+ns
+
+400
+
+ns
+
+100
+
+ns
+
+----------------~f
+
+MAX
+
+\~--~--
+
+!---- tBHBV ~< tBLSH >-!
+
+SEL
+
+.
+
+\
+
+:
+
+I
+
+i--tSLOO ~
+OBX'
+
+:(r----------;.----------
+
+------.! tOVIO>-:"- tIOBH~!
+
+---------i---4\~
+
+________________
+
+I/O
+
+Tgroup
+
+Igroup
+
+---------------------------------------------------------------
+
+NOTE:
+
+Tgroup
+
+signals driven by a target
+
+Igroup
+
+signals driven by an initiator = ATN and ACK.
+
+=
+
+C/O, MSG and REO.
+
+Figure 20. Timing-Reselecting a Target
+
+ADVANCE INFORMATION 12110190
+
+30-57
+
+WD33C938
+6.2.5
+
+TIMING CHARACTERISTICS
+
+Response To Reselection (As An Initiator)
+
+SYMBOL
+tslbh
+tivbh
+tilbh
+tbhao
+tavbl
+tbhbl
+tbloi
+tblsh
+tshbh
+
+BSY
+
+SEl
+
+CHARACTERISTIC
+SEL- IN LOW TO BSY- IN HIGH
+"OR-ED" 10 VALID IN
+TO BSY- IN HIGH
+1/1- IN LOW TO BSY- IN HIGH
+SEL- LOW, 10 VALID, BSY- HIGH
+TO Igroup OUT
+Igroup VALID OUT TO BSY- OUT LOW
+BSY- IN HIGH TO BSY- OUT LOW
+BSY- OUT LOW
+TO "OR-ED" 10 INVALID IN
+BSY- OUT LOW TO SEL- IN HIGH
+SEL- IN HIGH TO BSY- OUT HIGH
+
+--~~/
+!~tSlBH~""'-
+
+MAX
+
+UNITS
+ns
+ns
+
+0
+100
+
+ns
+ns
+
+100
+0.4
+0
+
+ns
+ns
+ns
+
+200
+
+0
+0
+
+ns
+ns
+
+\~~~~-~~
+
+~!::::_
+
+tBlSH
+
+tSHBH>1
+
+~~j--~----~~~I
+____: 'IVBH :~
+
+DBx
+
+tBHBl
+
+0
+0
+
+MIN
+
+----(~!
+
+: _ tBlOI ~
+
+.
+
+} r - - - '-
+
+-
+
+~: tBHAO >j~tAVBl:~
+
+\~-----------------------------. .
+----i tllBH:~
+1/0 --------~\~!---------------------------------------------
+
+Igroup
+
+Tgroup
+
+------------------------------"--------------------------------
+
+NOTE:
+
+Tgroup
+
+signals driven by a target = C/D, MSG and REO.
+
+Igroup
+
+signals driven by an initiator = ATN and ACK.
+
+Figure 21. Timing-Reselection as Initiator
+
+30-58
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.2.6 Receive Asynchronous Information Transfer In (Acting As An Initiator)
+
+SYMBOL
+tshpc
+tildt
+tpcrl
+tdvrl
+trial
+tadli
+talrh
+trhah
+tahpc
+
+SEl
+
+MAX
+
+0
+0
+400
+0
+0
+0
+0
+0
+0
+
+125
+
+175
+
+175
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+..
+
+~
+~
+
+PHASE
+
+MIN
+
+CHARACTERISTIC
+SEL- IN HIGH TO PHASE CHANGE IN
+1/0- IN LOW TO DATA BUS TRISTATE
+PHASE CHANGE IN TO REO- IN LOW
+DATA VALID IN TO REO- IN LOW
+REO- IN LOW TO ACK- OUT LOW
+ACK- OUT LOW TO DATA INVALID IN
+ACK- OUT LOW TO REO- IN HIGH
+REO- IN HIGH TO ACK- OUT HIGH
+ACK- OUT HIGH TO PHASE CHANGE IN
+
+tSHPC
+
+--------~X~-----------------------------------x===
+
+-
+
+I/O
+
+\
+
+---~ IllOT i....
+""'<-----,lI.~: IOVRl ~""O(:-------;l.~ IAlOI i~
+DBx _ _ _----'-----')
+....
+0(;----
+
+REO
+
+('
+
+C
+
+X..----i--
+
+tpCRl ----:.~i
+
+\
+
+~i IRlAl
+
+/,
+IAlRH! tRHAHi
+
+~K------------------------~\
+
+fr' -------
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O and MSG
+
+Figure 22. Timing-Asynchronous Transfer as Initiator
+
+ADVANCE INFORMATION 12110190
+
+30-59
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.7 Send Asynchronous Information Transfer In (Acting As A Target)
+
+SYMBOL
+tshpc
+tildo
+tdvrl
+tpcrl
+trial
+talrh
+taldi
+trhah
+tahpc
+tahrl
+
+SEL
+
+CHARACTERISTIC
+SEL- IN HIGH TO PHASE CHANGE OUT
+1/0- OUT LOW TO DATA OUT
+DATA OUT VALID TO REQ- OUT LOW
+PHASE CHANGE OUT TO REQ- OUT LOW
+REQ- OUT LOW TO ACK- IN LOW
+ACK- IN LOW TO REQ- OUT HIGH
+ACK- IN LOW TO DATA OUT INVALID
+REQ- OUT HIGH TO ACK- IN HIGH
+ACK- IN HIGH TO PHASE CHANGE OUT
+ACK- IN HIGH TO REQ- OUT LOW
+
+1/0
+
+MAX
+
+100
+800
+55
+500
+0
+0
+0
+0
+100
+0
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+175
+
+175
+
+--1
+~
+
+PHASE
+
+MIN
+
+tSHPC
+
+j.....
+
+------~~========================x,~---\
+A~_
+:.- tlLDO >-j-< tDVRL>-j
+
+j~ tALDI ----...:
+
+:j.....-- {=====·===:·======X~~-_-_~~-_-_-_-_-_
+
+DBx
+
+tpCRL ~i
+
+\t
+
+REO
+
+j:
+
+\<,--:_
+
+----..jtRLAL j tALRH j tRHAH j tAHPC
+ACK
+
+--------------~\
+
+)~ tAHRL~
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O and MSG
+
+Figure 23. Timing-Asynchronous Transfer as Target
+
+30-60
+
+ADVANCE INFORMATION 12110190
+
+i..... :
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.8 Send Asynchronous Information Transfer Out (Acting As An Initiator)
+
+SYMBOL
+tshpc
+tihdo
+tpcrl
+trial
+tdval
+talrh
+trhah
+trhdi
+tahpc
+
+SEl
+
+CHARACTERISTIC
+SEL- IN HIGH TO PHASE CHANGE IN
+1/0- IN HIGH TO DATA OUT
+PHASE CHANGE IN TO REO- IN LOW
+REO- IN LOW TO ACK- OUT LOW
+DATA OUT VALID TO ACK- OUT LOW
+ACK- OUT LOW TO REO- IN HIGH
+REO- IN HIGH TO ACK- OUT HIGH
+REO- IN HIGH TO DATA OUT INVALID
+ACK- OUT HIGH TO PHASE IN CHANGE
+
+MAX
+
+0
+0
+400
+0
+
+175
+
+55
+
+0
+0
+0
+0
+
+175
+
+tSHPC
+
+------~x~--------------------~x.~____
+
+t'--__
+
+I/O _ _ _ _.....Jf
+
+i.-tIHOO . .[....~~».,:
+
+DBx
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+J
+~
+
+PHASE
+
+MIN
+
+----~~[(
+
+tOVAL
+
+i~
+
+X'--__--~x.~~-
+
+!~ tpCRl ----..!
+
+REO
+
+ACK
+
+!~tRHOI--.i
+
+/
+
+\\
+
+.
+~!tRLAL [t ALRH , tRHAH : tAHPC !~
+\,,--!
+
+_---J/
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = c/o and MSG
+
+Figure 24. Timing-Asynchronous Transfer Out as Initiator
+
+ADVANCE INFORMATION 12110190
+
+30-61
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.2.9 Receive Asynchronous Information Transfer Out (Acting As A Target)
+
+SYMBOL
+tshpc
+tihdt
+tpcrl
+trIal
+tdval
+talrh
+trhdi
+trhah
+tahpc
+tahrl
+
+SEl
+
+CHARACTERISTIC
+SEL- IN HIGH TO PHASE CHANGE OUT
+1/0- OUT HIGH TO DATA BUS TRISTATE
+PHASE CHANGE TO REQ- OUT LOW
+REQ- OUT LOW TO ACK- IN LOW
+DATA IN VALID TO ACK- IN LOW
+ACK- IN LOW TO REQ- OUT HIGH
+REQ- OUT HIGH TO DATA IN INVALID
+REQ- OUT HIGH TO ACK- IN HIGH
+ACK- IN HIGH TO PHASE CHANGE OUT
+ACK- IN HIGH TO REQ- OUT LOW
+
+MAX
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+ns
+
+0
+500
+0
+0
+0
+0
+0
+0
+0
+
+175
+
+175
+
+--f
+~
+
+PHASE
+
+MIN
+100
+
+tSHPC
+
+----------~~~--------------------------------~0~----~'----
+
+-JJ:
+
+1/0 _ _ _ _
+
+~ tlHOT >-:;....~-:J.~:
+
+DBx _ _ _ _---:-_ _-1)::
+
+tOVAl
+
+,~,
+
+!
+
+:(
+
+tRHOI
+
+:..-
+
+X'r--:-----
+
+.~.~:~--~~l,--~·~·~---­
+
+:~ tpCRl-------':
+REO
+
+\~i--t-----'I
+
+!
+
+\>,---,_
+
+~tRlAl tAlRHl tRHAH 1 tAHPC :..- i
+ACK -------------------------------,\"-________-'A~- tAHRl ~
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O and MSG
+
+Figure 25.Timing-Receive Asynchronous Transfer Out As Target
+
+30-62
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.10 Receive Synchronous Information Transfer In (5 and 10 Mb/s) (Acting As An Initiator)
+
+SYMBOL
+tdvrl
+trldi
+trcvc
+trlrh
+trhrl
+talah
+tahal
+tahpc
+
+CHARACTERISTIC
+DATA VALID IN TO REQ- IN LOW
+REQ- IN LOW TO DATA INVALID
+REQ- IN CYCLE TIME
+REQ- IN LOW TO REQ- IN HIGH
+REQ- IN HIGH TO REQ- IN LOW
+ACK- OUT LOW TO ACK- OUT HIGH (1)
+ACK- OUT HIGH TO ACK- OUT LOW (1)
+ACK- OUT HIGH TO PHASE CHANGE
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+Tcvc
+Tcvc
+ns
+
+MAX
+
+MIN
+0
+30
+100
+30
+30
+HOns
+HOns
+0
+
+PARAMETERS tshpc, tildt, and tpcrl ARE ALSO APPLICABLE AND ARE IDENTICAL TO
+THOSE IN 6.2.6.
+(1) Tahal + Talah = 2*Tcyc
+
+-..:
+
+OBx
+
+tOVRL
+
+tRLOI:"--
+
+-{r-------,Xr----t-!----"""""\X,..--------: . . - - tRCYC ~!
+
+REQ
+
+-\
+---..:
+
+ACK
+
+I:
+tRLRH
+
+\~!---,I
+
+tRHRL:
+
+\!
+
+tAHAL
+
+1
+
+:~
+
+\,,--:----J/
+
+!..- tAHPC~:
+
+PHASE __________________________________________________
+
+~xr-----
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O, I/O and MSG
+
+Fig. 26.liming-Receive Synchronous Transfer In As Initiator
+
+ADVANCE INFORMATION 12110190
+
+30-63
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.11a Send Synchronous Information Transfer In.(5 Mb/s) (Acting As A Target)
+
+SYMBOL
+tdvrl
+trldi
+trlrh
+trhrl
+tacyc
+talah
+tahal
+tahpc
+
+CHARACTERISTIC
+DATA VALID OUT TO REQ- OUT LOW
+REQ- OUT LOW TO DATA INVALID
+REQ- OUT LOW TO REQ- OUT HIGH {1}
+REQ- OUT HIGH TO REQ- OUT LOW {1}
+ACK- IN CYCLE TIME
+ACK- IN LOW TO ACK- IN HIGH
+ACK- IN HIGH TO ACK- IN LOW
+ACK- IN HIGH TO PHAS CHANGE OUT
+
+MIN
+55
+100
+HOns
+HOns
+200
+50
+50
+0
+
+MAX
+
+UNITS
+ns
+ns
+Tcyc
+Tcyc
+ns
+ns
+ns
+ns
+
+PARAMETERS tshpc, tilde, and tpcrl ARE ALSO APPLICABLE AND ARE IDENTICAL TO THOSE
+IN 6.2.7.
+(1) Trhrl + Trlrh = 2*Tcyc
+
+PHASE ________________________________________________~X~----
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O, I/O and MSG
+
+Figure 27. Timing-5end Synchronous Transfer In As Target
+
+30-64
+
+ADVANCE INFORMATION 12110190
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.11b Send Synchronous Information Transfer In (10 Mb/s) (Acting As A Target)
+
+SYMBOL
+tdvrl
+rtrldi
+trlrh
+trhrl
+tacyc
+talah
+tahal
+tahpc
+
+CHARACTERISTlC
+DATA VALID OUT TO REQ- OUT LOW
+REQ- OUT LOW TO DATA INVALIF
+REQ- OUT LOW TO REQ- OUT HIGH (1)
+REQ- OUT HIGH TO REQ- OUT LOW (1)
+ACK- IN CYCLE TIME
+ACK- IN LOW TO ACK- IN HIGH
+ACK- IN HIGH TO ACK- IN LOW
+ACK- IN HIGH TO PHASE CHANGE OUT
+
+MIN
+25
+35
+1-10ns
+HOns
+100
+30
+30
+0
+
+MAX
+
+UNITS
+ns
+ns
+Tcyc
+Tcyc
+ns
+ns
+ns
+ns
+
+PARAMETERS tshpc, tilda, and tpcrl ARE ALSO APPLICABLE AND ARE IDENTICAL TO
+THOSE IN 6.2.7.
+(1) Trhrl + Trlrh = 2*Tcyc
+
+----..j tOVRL
+
+tRLOI
+
+:~
+
+OBx -i~~----:-t-~-R-H-,t~t-R-H-R-L-+i~-----.X~-----------------------------
+
+REO
+
+\
+
+_--JI
+i"I
+\lj-i_----.Jl
+
+/
+\,,--1
+---...: tALAH : tAHAL
+
+ACK - - - - - - - , \
+
+i~ tACYC ~:
+
+:
+
+i~ tAHPC ~:
+
+PHASE ________________________________________________--JX~-----
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O, I/O and MSG
+
+Figure 28. Timing-Send Synchronous Transfer In As Target
+
+ADVANCE INFORMATION 12110190
+
+30-65
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.12a Send Synchronous Information Transfer Out (5 Mb/s) (Acting As An Initiator)
+
+SYMBOL
+tdval
+taldi
+trcyc
+trlrh
+trhrl
+talah
+tahal
+tahpc
+
+CHARACTERISTIC
+DATA VALID OUT TO ACK- OUT LOW
+ACK- OUT LOW TO DATA INVALID
+REO- IN CYCLE TIME
+REO- IN LOW TO REO- IN HIGH
+REO- IN HIGH TO !REO- IN LOW
+ACK- OUT LOW TO ACK- OUT HIGH (1)
+ACK- OUT HIGH TO ACK- OUT LOW (1)
+ACK- OUT HIGH TO PHASE CHANGE IN
+
+MAX
+
+MIN
+55
+100
+200
+50
+50
+1-10ns
+1-10ns
+0
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+Tcyc
+Tcyc
+ns
+
+PARAMETERS tshpc, tihdo, and tpcrl ARE ALSO APPLICABLE AND ARE IDENTICAL
+TO THOSE IN 6.2.8.
+(1) Tahal + Talah = 2*Tcyc
+
+--------+!--------------lX'---
+
+PHASE - - - - - i - .
+~ tRLRH
+REQ
+
+\
+
+tRHRL:~
+
+\~:----J/
+
+---1/
+
+___
+!
+
+--..:
+
+ACK
+
+------.,\i
+
+tAHAL:~
+
+tALAH
+
+OBx
+
+\\--._-J/
+
+If
+~:
+
+:..- tAHPC ---..:
+
+__
+
+tOVAL
+
+~~------~X~
+
+:
+
+tALOI:"'-
+
+~X~------
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O, 110 and MSG
+
+Figure 29. Timing-Send Synchronous Transfer Out As Initiator
+
+30-66
+
+!
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.2.12b Send Synchronous Information Transfer Out (10 Mb/s) (Acting As An Initiator)
+
+SYMBOL
+tdval
+taldi
+trcyc
+trlrh
+trhrl
+talah
+tahal
+tahpc
+
+CHARACTERISTIC
+DATA VALID OUT TO ACK- OUT LOW
+ACK- OUT LOW TO DATA INVALID
+REQ- IN CYCLE TIME
+REQ- IN LOW TO REQ- IN HIGH
+REQ- IN HIGH TO REQ- IN LOW
+ACK- OUT LOW TO ACK- OUT HIGH (1)
+ACK- OUT HIGH TO ACK- OUT LOW (1)
+ACK- OUT HIGH TO PHASE CHANGE IN
+
+MIN
+25
+35
+100
+30
+30
+1-10ns
+1-10ns
+0
+
+MAX
+
+UNITS
+ns
+ns
+ns
+ns
+ns
+Tcyc
+Tcyc
+ns
+
+PARAMETERS tshpc, tihdo, and tpcrl ARE ALSO APPLICABLE AND ARE IDENTICAL
+TO THOSE IN 6.2.8.
+(1) Tahal + Talah = 2*Tcyc
+
+PHASE
+
+REO
+
+-----;------_-----------------JX.'---~j tRLRH
+tRHRL j . . . -
+
+,<--I_~/
+
+\<--:
+
+~:
+
+ACK - - - - - - - - - - \
+
+DBx
+
+_--,I
+
+tALAH
+
+Ii
+
+---JX'--___--'X'---_____
+
+-{'--_ _ _ _ _
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/D, I/O and MSG
+
+Figure 30. Timing-Send Synchronous Transfer Out As Initiator
+
+ADVANCE INFORMATION 12110190
+
+30-67
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.13 Receive Synchronous Information Transfer Out (5 and 10 Mb/s) (Acting As A Target)
+
+SYMBOL
+tdval
+taldi
+trlrh
+trhrl
+tacyc
+talah
+tahal
+tahpc
+
+CHARACTERISTIC
+DATA VALID IN TO ACK- IN LOW
+ACK- IN LOW TO DATA INVALID
+REO- OUT LOW TO REO- OUT HIGH (1)
+REO- OUT HIGH TO REO- OUT LOW (1)
+ACK- IN CYCLE TIME
+ACK- IN LOW TO ACK- IN HIGH
+ACK- IN HIGH TO ACK- IN LOW
+ACK- IN HIGH TO PHASE CHANGE OUT
+
+MIN
+0
+30
+1-10ns
+1-10ns
+100
+30
+30
+0
+
+MAX
+
+UNITS
+ns
+ns
+Tcyc
+Tcyc
+ns
+ns
+ns
+ns
+
+PARAMETERS tshpc, tihdt, and tpcrl ARE ALSO APPLICABLE AND ARE
+IDENTICAL TO THOSE IN 6.2.9.
+(1) Trhrl + Trlrh = 2*Tcyc
+
+1/0
+
+PHASE ______________________________________________
+------..:
+REO
+
+tRlRH
+
+tRHRL:~
+
+\1:.-:_--II
+
+\1:.-:_--,I
+~:
+
+ACK
+
+~~.~---
+
+------,\i
+.
+
+tALAH
+
+tAHAL
+
+\1
+
+l.
+
+~!
+
+,..-
+
+tOVAL
+
+/
+
+-tA-L-OI~:~
+
+'!-!
+
+OBx -{~--------;----,X
+!~ tACYC
+
+:..- tAHPC ----..:
+
+Xr-----....,...-
+
+------..'
+
+ATN
+NOTE:
+
+Phase = signals that define the bus = C/O and MSG
+
+Fig. 31. Timing-Receive Synchronous Transfer Out As Target
+
+30-68
+
+ADVANCE INFORMATION 12110190
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.2.14 Arbitration To Bus Free
+SYMBOL
+tslbh
+
+CHARACTERISTIC
+SEL- IN LOW
+TO BSY- HIGH, DATA TRI-STATE
+
+MIN
+
+MAX
+6+50ns
+
+UNITS
+Tcyc
+
+BSY - - - - - - - - - - - - - - - - - - - , , ' -_ _ _ _----J/:
+
+..
+
+___
+
+..
+
+SEL ------------------------------------~\~!~ tS_L_B_H_~
+__~!
+
+___________
+
+DBx ---------------------- x __________________________ x----------
+
+Figure 32. Arbitration to Bus Free Timing
+
+ADVANCE INFORMATION 12110190
+
+30-69
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.15 Selection (As An Initiator) Or Reselection (As A Target) To Bus Free (Selection Timeout)
+
+SYMBOL
+ttade
+
+tdesh
+tshdt
+tshih
+
+CHARACTERISTIC
+TIMEOUT OR ABORT
+TO DATA BUS CLEARED
+DATA BUS CLEARED TO SEL- OUT HIGH
+SEL- OUT HIGH TO DATA BUS TRISTATE
+SEL- OUT HIGH TO entl TRISTATE
+
+MIN
+
+MAX
+
+0
+
+201
+800
+800
+
+....11
+
+BSY _ _ _ _ _ _ _
+
+SEL
+
+---------------~(
+tOCSH
+
+OBx
+
+tSHOT
+
+-------------,~----~~----.. :
+tSHIH
+~
+
+Tgroup or - - - - - - - - - - - - - - - - - - - - - Igroup
+
+NOTE:
+
+Tgroup = signals driven by a target = 1/0-, C/O-, MSG-, REOIgroup = signals driven by an initiator = ATN-, ACK-
+
+Figure 33. Timing-5election to Bus Free
+
+30-70
+
+ADVANCE INFORMATION 12110190
+
+UNITS
+ns
+
+us
+ns
+ns
+
+WD33C93B
+
+TIMING CHARACTERISTICS
+
+6.2.16 Connected-As-An-Initiator To Bus Free
+SYMBOL
+tbhdt
+tbhgt
+
+CHARACTERISTIC
+BSY- IN HIGH TO DATA BUS TRISTATE
+BSY- IN HIGH TO Igroup TRISTATE
+
+BSY - - - - - - - - - - - - - - /
+
+---..
+
+MIN
+
+MAX
+
+8+75ns
+8+75ns
+
+UNITS
+Tcyc
+Tcyc
+
+•
+
+IBHDT
+
+DBx
+tBHGT
+Igroup _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ __
+
+NOTE:
+
+Igroup = signals driven by an initiator = ATN-, ACK-
+
+Figure 34. Timing-Initiator to Bus Free
+
+ADVANCE INFORMATION 12110190
+
+30-71
+
+WD33C938
+
+TIMING CHARACTERISTICS
+
+6.2.17 Connected-As-A-Target To Bus Free
+SYMBOL
+tbhdt
+tbhgt
+
+BSY
+
+CHARACTERISTIC
+BSY- OUT HIGH TO DATA BUS TRISTATE
+BSY- OUT HIGH TO Tgroup TRISTATE
+
+-----------JI!
+~
+
+MIN
+
+MAX
+8+75n5
+8+75n5
+
+tBHOT
+
+OBx
+tBHGT
+Tgroup _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ __
+
+NOTE:
+
+Tgroup
+
+= signals driven by an initiator = 1/0-, C/O-, MSG-, REQ-
+
+Figure 35. Timing-Target to Bus Free
+
+30-72
+
+ADVANCE INFORMATION 12110190
+
+UNITS
+Tcyc
+Tcyc
+
+
