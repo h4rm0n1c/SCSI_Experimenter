@@ -4,6 +4,8 @@ A 33C93A/WD33C93-based SCSI experimenter board for microcontroller projects, wit
 
 ## What it is
 
+![SCSI Experimenter board render](render.png)
+
 This repo contains:
 
 - **KiCad hardware design** — a breakout board built around the AM33C93A/WD33C93A SCSI bus interface controller, with a 26-pin CPU header and 50-pin SCSI-1 connector, passive 220/330Ω termination, and TERMPWR direction switch (HBA/vampire modes).
