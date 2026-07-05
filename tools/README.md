@@ -62,10 +62,59 @@ back to `$PATH`, then to building from
 Exit 0 = all compiled and matched. Never modifies ARCHITECTURE.md —
 it validates whatever the doc actually says.
 
+## pio_sim.py — stage-3: behavioral simulation vs a mock 33C93A
+
+```
+python3 tools/pio_sim.py [-v]
+```
+
+Stage 1 proves the strobe timing, stage 2 proves the source assembles —
+neither proves the programs implement the **protocol**. Stage 3
+executes the programs cycle-by-cycle against a mock WD33C93A register
+file and checks what the chip would actually *do*:
+
+- **Executes real machine words.** A built-in assembler turns the
+  ARCHITECTURE.md `pioasm` blocks into 16-bit PIO instructions, then a
+  cycle-accurate SM model (OSR/ISR shifts, autopush/autopull, FIFO
+  stalls, side-set-on-first-cycle, delay cycles, pindirs, the 2-sys_clk
+  input-synchronizer age) decodes and runs the *words* — so a
+  mis-encoded field is an execution failure. The assembled `sbic_bus`
+  is cross-checked word-for-word against the pioasm 2.2.0 output
+  captured in `../session/6e23006d-*` (golden reference embedded).
+- **Mock chip enforces the datasheet at every pin edge**: indirect
+  Address-register protocol with its auto-increment exceptions
+  (Aux Status / Data 19h / Command 18h — app notes §6.2.2, B datasheet
+  §3.1.2), strobe min/max widths and recovery (§9.1.3/9.1.4), read
+  data driven only after tRLDV — a program that samples early gets
+  garbage *and* a logged violation — data setup on writes, bus
+  contention, DACK̅-vs-CS̅ exclusion (E024), MR̅ ≥ 1 µs, INTRQ
+  set/clear semantics (§9.1.13), the 7 µs LCI rule, and DRQ̅/DACK̅
+  burst handshaking (§9.1.11/9.1.12; B §6.1.11/6.1.12 pipelined-read
+  gap).
+
+Tests (any datasheet violation fails the test that produced it):
+
+| Test | Proves |
+|---|---|
+| `golden-encoding` | assembler == session pioasm 2.2.0 words |
+| `init-sequence` | **SM0 full init: MR̅ pulse → wait INTRQ → read SCSI Status (INTRQ clears) → write Own ID → read it back** |
+| `aux-status` | A0=0 read returns Aux Status, Address reg untouched |
+| `auto-increment` | CDB 03h–06h in 1+N cycles; Data 19h doesn't advance |
+| `lci-7us-rule` | command <7 µs after status read ignored + LCI; ≥7 µs accepted (soft reset → interrupt 00h) |
+| `burst-in` / `burst-out` | SM1 DRQ̅/DACK̅ bursts move every byte in order, CS̅ high, completion INTRQ, DRQ̅ deasserts |
+| `fifo-stall-hazard` | the §2 warning is real: a 5th un-drained SM0 read wedges `in pins` with RE̅ low, and the mock flags the tRE ≤ 10 µs violation |
+
+The mock's checks are mutation-tested: shortening a strobe delay or
+moving the read sample earlier makes the corresponding test fail.
+Timing constants deliberately mirror `check_pio_timing.py`. Exit 0 =
+all tests pass. Like the other stages it never modifies
+ARCHITECTURE.md — it validates whatever the doc actually says.
+
 **Validation flow after any PIO-related edit:**
 ```
 python3 tools/check_pio_timing.py   # encoding budget + timing sim
 python3 tools/assemble_pio.py       # real compiler + config verification
+python3 tools/pio_sim.py            # behavioral sim vs mock 33C93A
 ```
 
 ## extract_netlist.py — KiCad PCB netlist dump
