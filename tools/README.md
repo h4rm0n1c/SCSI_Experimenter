@@ -89,8 +89,16 @@ file and checks what the chip would actually *do*:
   garbage *and* a logged violation — data setup on writes, bus
   contention, DACK̅-vs-CS̅ exclusion (E024), MR̅ ≥ 1 µs, INTRQ
   set/clear semantics (§9.1.13), the 7 µs LCI rule, and DRQ̅/DACK̅
-  burst handshaking (§9.1.11/9.1.12; B §6.1.11/6.1.12 pipelined-read
-  gap).
+  burst handshaking.
+- **Chip-variant-aware burst timing** (`chip_variant="A"|"B"` on
+  `Bus`/`Sim`/`MockWD33C93A`, default A = worst case). A enforces
+  §9.1.11/9.1.12: every read byte independently valid ≤ 50 ns from
+  RE̅↓, strobes ≥ 80/50 ns, setup ≥ 25 ns, recovery ≥ 80 ns. B
+  enforces §6.1.11/6.1.12: strobes ≥ 30 ns, setup ≥ 18 ns, and the
+  *pipelined* read model — the mock only makes the first byte valid
+  ≤ 50 ns from DACK̅↓ (tDLDV) and each later byte ≤ 80 ns from the
+  *previous* RE̅↑ (tRHDV), so an SM that strobes faster than the
+  pipeline delivers reads garbage and fails functionally.
 
 Tests (any datasheet violation fails the test that produced it):
 
@@ -101,7 +109,9 @@ Tests (any datasheet violation fails the test that produced it):
 | `aux-status` | A0=0 read returns Aux Status, Address reg untouched |
 | `auto-increment` | CDB 03h–06h in 1+N cycles; Data 19h doesn't advance |
 | `lci-7us-rule` | command <7 µs after status read ignored + LCI; ≥7 µs accepted (soft reset → interrupt 00h) |
-| `burst-in` / `burst-out` | SM1 DRQ̅/DACK̅ bursts move every byte in order, CS̅ high, completion INTRQ, DRQ̅ deasserts |
+| `burst-in` / `burst-out` | SM1 DRQ̅/DACK̅ bursts (A variant) move every byte in order, CS̅ high, completion INTRQ, DRQ̅ deasserts |
+| `golden-burst-pipeline` | B variant: 12 bytes arrive intact under the pipelined validity model, and every prev-RE̅↑ → next-RE̅↓ gap ≥ 80 ns (the §2 claim that B data is stable before its strobe even falls) |
+| `variant-probe` | Appendix E item 9 works: soft reset with EAF+RAF → SCSI Status 01h on both variants; CDB1 = microcode revision on a B, 0 on an A |
 | `fifo-stall-hazard` | the §2 warning is real: a 5th un-drained SM0 read wedges `in pins` with RE̅ low, and the mock flags the tRE ≤ 10 µs violation |
 
 The mock's checks are mutation-tested: shortening a strobe delay or

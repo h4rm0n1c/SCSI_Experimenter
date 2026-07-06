@@ -39,10 +39,21 @@ Tests (run all; exit 0 = pass):
                      Data (19h) does NOT auto-increment
   lci-7us-rule       command <7 µs after status read ignored + LCI;
                      ≥7 µs accepted (soft reset → interrupt 00h)
-  burst-in           SM1 DRQ̅/DACK̅ read burst: order, timing, CS̅ high
-  burst-out          SM1 write burst: order, setup, strobe width
+  burst-in           SM1 DRQ̅/DACK̅ read burst (A variant): order,
+                     timing, CS̅ high
+  burst-out          SM1 write burst (A variant): order, setup, width
+  golden-burst-pipeline  B variant: 12 bytes with pipelined validity
+                     (first ≤50 ns from DACK̅↓, later ≤80 ns from prev
+                     RE̅↑) and every inter-byte gap ≥ 80 ns
+  variant-probe      soft reset with EAF+RAF: CDB1 = microcode rev on
+                     a B, 0 on an A (Appendix E item 9)
   fifo-stall-hazard  >4 un-drained SM0 reads → `in` stalls with RE̅ low
                      → mock must flag the tRE ≤ 10 µs violation
+
+The mock's burst timing is chip-variant aware (chip_variant="A"|"B" on
+Bus/Sim/MockWD33C93A): A enforces §9.1.11/9.1.12 with every byte
+independently valid tRLDV after RE̅↓; B enforces §6.1.11/6.1.12 with
+the pipelined read model and the faster strobe/setup minima.
 
 Run from the repo root:
     python3 tools/pio_sim.py [-v]
@@ -79,12 +90,20 @@ IND_TRE_MIN = 180.0         # RE- pulse width
 IND_TRE_MAX = 10_000.0      # RE- pulse width max (the FIFO-stall trap)
 IND_TRLDV = 180.0           # RE- low to data valid (chip drive delay)
 IND_RECOVERY = 100.0        # tWHWL / tRHRL
-BST_TRD_MIN = 80.0          # burst RE- width (A)
-BST_TRLDV = 50.0            # burst RE- low to data valid (A)
-BST_TWR_MIN = 50.0          # burst WE- width (A)
-BST_TDVWH_MIN = 25.0        # burst data setup (A)
-BST_RECOVERY = 80.0         # burst strobe recovery (A)
-BST_PIPE_GAP = 80.0         # B pipelined read: prev RE-hi -> next RE-lo
+# Burst DMA limits are chip-variant specific (A app notes 9.1.11/9.1.12
+# vs B datasheet 6.1.11/6.1.12). A treats every read byte independently
+# (data valid <= 50 ns from RE- low); B is *pipelined*: the first byte
+# is valid <= 50 ns from DACK- low (tDLDV), each later byte <= 80 ns
+# from the PREVIOUS RE- high (tRHDV) -- RE- just advances the FIFO.
+BURST_SPEC = {
+    "A": {"trd": 80.0, "twr": 50.0, "setup": 25.0, "recovery": 80.0,
+          "rldv": 50.0, "pipelined": False},
+    "B": {"trd": 30.0, "twr": 30.0, "setup": 18.0, "recovery": 30.0,
+          "first_dv": 50.0, "rhdv": 80.0, "pipelined": True},
+}
+BST_PIPE_GAP = 80.0         # design guarantee: prev RE-hi -> next RE-lo
+                            # >= 80 ns so B data is stable pre-strobe
+MICROCODE_REV = 0x0D        # mock B: CDB1 after soft reset with RAF=1
 MR_MIN = 1_000.0            # MR- pulse width
 LCI_WINDOW = 7_000.0        # 7 us command lockout after status read
 RESET_DONE_NS = 5_000.0     # mock: MR-/soft-reset completion latency
@@ -211,7 +230,9 @@ class Bus:
     a logged violation).  Undriven pins float to their pull value.
     """
 
-    def __init__(self):
+    def __init__(self, chip_variant="A"):
+        assert chip_variant in ("A", "B")
+        self.chip_variant = chip_variant
         self.pull = {DRQ: 1}                # 1k external pull-up on DRQ-
         self.sm_out = {}                    # pin -> level (output register)
         self.sm_dir = {}                    # pin -> bool driven by SM
@@ -478,8 +499,10 @@ class MockWD33C93A:
     results double as timing proof.
     """
 
-    def __init__(self, bus):
+    def __init__(self, bus, chip_variant=None):
         self.bus = bus
+        self.variant = chip_variant or bus.chip_variant
+        self.burst_spec = BURST_SPEC[self.variant]
         bus.listeners.append(self.on_pin_change)
         bus.chip_out[INTRQ] = 0         # driven inactive from power-on
         self.regs = [0] * 0x20
@@ -491,7 +514,9 @@ class MockWD33C93A:
         # timing bookkeeping
         self.fall = {}                  # pin -> (t, context) of active strobe
         self.last_rise = None           # (t, 'ind'|'bst') last strobe rise
-        self.last_re_rise_bst = None
+        self.last_re_rise_bst = None    # pipeline state: prev burst RE- rise
+        self.last_dack_fall = None      # pipeline state: DACK- assertion
+        self.bst_gaps = []              # prev RE-hi -> next RE-lo, per byte
         self.mr_fall = None
         self.data_stable_since = -1e18  # last D0-7 change (host side)
         self.last_status_read = -1e18
@@ -580,6 +605,9 @@ class MockWD33C93A:
                                  f"< {MR_MIN:.0f} min")
                 self.schedule(t + RESET_DONE_NS, self._hard_reset_done)
                 self.mr_fall = None
+        elif pin == DACK:
+            if new == 0:
+                self.last_dack_fall = t
         elif pin in (WE, RE):
             cs, dack = self.bus.now(CS), self.bus.now(DACK)
             if new == 0:
@@ -598,7 +626,8 @@ class MockWD33C93A:
         self.fall[pin] = (t, ctx)
         if self.last_rise is not None:
             lt, lctx = self.last_rise
-            need = IND_RECOVERY if ctx == "ind" else BST_RECOVERY
+            need = (IND_RECOVERY if ctx == "ind"
+                    else self.burst_spec["recovery"])
             if t - lt < need:
                 self.viol(t, f"recovery {t - lt:.1f} ns < {need:.0f} "
                              f"({ctx})")
@@ -612,27 +641,48 @@ class MockWD33C93A:
             else:                               # burst read
                 if self.burst_dir != "in":
                     self.viol(t, "burst RE- with no data-in transfer")
-                    self.begin_drive(t, 0xEE, BST_TRLDV)
+                    byte = 0xEE
                 elif not self.scsi_in:
                     self.viol(t, "burst RE- with FIFO empty (DRQ- high)")
-                    self.begin_drive(t, 0xEE, BST_TRLDV)
+                    byte = 0xEE
                 else:
-                    self.begin_drive(t, self.scsi_in[0], BST_TRLDV)
-                if self.last_re_rise_bst is not None \
-                        and t - self.last_re_rise_bst < BST_PIPE_GAP:
-                    self.viol(t, f"B pipelined-read gap "
-                                 f"{t - self.last_re_rise_bst:.1f} ns "
-                                 f"< {BST_PIPE_GAP:.0f}")
+                    byte = self.scsi_in[0]
+                if self.last_re_rise_bst is not None:
+                    self.bst_gaps.append(t - self.last_re_rise_bst)
+                if self.burst_spec["pipelined"]:
+                    # B model: RE- only advances the FIFO. First byte
+                    # valid tDLDV after DACK- fell; byte N+1 valid
+                    # tRHDV after byte N's RE- rise -- whichever way,
+                    # the drive-valid time is absolute, so a strobe
+                    # arriving before the pipeline caught up samples
+                    # garbage (and the design-guarantee gap is checked).
+                    if self.last_re_rise_bst is None:
+                        ready = ((self.last_dack_fall
+                                  if self.last_dack_fall is not None else t)
+                                 + self.burst_spec["first_dv"])
+                    else:
+                        ready = (self.last_re_rise_bst
+                                 + self.burst_spec["rhdv"])
+                        if t - self.last_re_rise_bst < BST_PIPE_GAP:
+                            self.viol(t, f"B pipelined-read gap "
+                                         f"{t - self.last_re_rise_bst:.1f}"
+                                         f" ns < {BST_PIPE_GAP:.0f}")
+                    self.begin_drive(t, byte, max(0.0, ready - t))
+                else:
+                    # A model: every byte independent, valid tRLDV
+                    # after this RE- fall
+                    self.begin_drive(t, byte, self.burst_spec["rldv"])
 
     def _strobe_rise(self, t, pin):
         t0, ctx = self.fall.pop(pin)
         width = t - t0
         self.last_rise = (t, ctx)
         if pin == WE:
-            lo = IND_TWE_MIN if ctx == "ind" else BST_TWR_MIN
+            lo = IND_TWE_MIN if ctx == "ind" else self.burst_spec["twr"]
             if width < lo:
                 self.viol(t, f"WE- width {width:.1f} ns < {lo:.0f} ({ctx})")
-            setup = IND_TDVWH_MIN if ctx == "ind" else BST_TDVWH_MIN
+            setup = (IND_TDVWH_MIN if ctx == "ind"
+                     else self.burst_spec["setup"])
             if not all(self.bus.sm_dir.get(D0 + i) for i in range(8)):
                 self.viol(t, "WE- rose with D0-7 not host-driven")
             elif t - self.data_stable_since < setup:
@@ -644,7 +694,7 @@ class MockWD33C93A:
             else:
                 self._burst_write(t, byte)
         else:                                   # RE
-            lo = IND_TRE_MIN if ctx == "ind" else BST_TRD_MIN
+            lo = IND_TRE_MIN if ctx == "ind" else self.burst_spec["trd"]
             if width < lo:
                 self.viol(t, f"RE- width {width:.1f} ns < {lo:.0f} ({ctx})")
             if ctx == "ind" and width > IND_TRE_MAX:
@@ -707,12 +757,25 @@ class MockWD33C93A:
         op = byte & 0x7F
         self.log.append(("cmd", op))
         if op == CMD_RESET:
-            eaf = (self.regs[REG_OWN_ID] >> 3) & 1
+            own_id = self.regs[REG_OWN_ID]
+            eaf = (own_id >> 3) & 1
+            raf = (own_id >> 5) & 1             # [B only]; reserved-0 on A
             for r in range(0x01, 0x17):
                 self.regs[r] = 0
-            self.schedule(t + RESET_DONE_NS,
-                          lambda: self.set_int(0x01 if eaf else 0x00))
+
+            def done():
+                # B with RAF=1: microcode revision lands in CDB1
+                # (Appendix F 00h / Appendix E variant probe). On an A
+                # the bit is reserved and CDB1 stays 0.
+                if self.variant == "B" and raf:
+                    self.regs[REG_CDB1] = MICROCODE_REV
+                self.set_int(0x01 if eaf else 0x00)
+            self.schedule(t + RESET_DONE_NS, done)
         elif op == CMD_TRANSFER_INFO:
+            # fresh transfer: reset the burst read pipeline state
+            self.last_re_rise_bst = None
+            self.last_dack_fall = None
+            self.bst_gaps = []
             dm = (self.regs[REG_CONTROL] >> 5) & 7
             if dm != 0b001:
                 self.viol(t, f"Transfer Info with DM={dm:03b}, "
@@ -748,8 +811,8 @@ class MockWD33C93A:
 # ========================================================================
 
 class Sim:
-    def __init__(self, words_by_name):
-        self.bus = Bus()
+    def __init__(self, words_by_name, chip_variant="A"):
+        self.bus = Bus(chip_variant)
         self.chip = MockWD33C93A(self.bus)
         self.t = 0.0
         self.words = words_by_name
@@ -1054,6 +1117,87 @@ def test_burst_out(programs):
                   "completion INTRQ")
 
 
+def test_golden_burst_pipeline(programs):
+    """B-variant pipelined burst read (B datasheet 6.1.12): 12 bytes
+    through SM1 with chip_variant='B'. The mock only makes byte N+1
+    valid tRHDV (80 ns) after byte N's RE- rise, so correct data proves
+    the SM respects the pipeline; additionally every prev-RE-high ->
+    next-RE-low gap must be >= 80 ns (the ARCHITECTURE.md section 2
+    claim that B data is stable before the next strobe even falls)."""
+    sim = Sim({n: w for n, (_, w) in programs.items()}, chip_variant="B")
+    chip = sim.chip
+    data = [0xB0 + i for i in range(11)] + [0x0B]
+    chip.burst_dir = "in"
+    chip.scsi_in = list(data)
+
+    sim.start_sm0()
+    sim.pulse_mr()
+    sim.run(ns=20_000, until=lambda: sim.bus.now(INTRQ) == 1)
+    sim.sm0_read(REG_SCSI_STATUS)
+    sim.run(ns=LCI_WINDOW)
+    sim.sm0_write(REG_CONTROL, 0b001 << 5)
+    sim.sm0_write(0x12, 0, 0, len(data))
+    sim.sm0_write(REG_COMMAND, CMD_TRANSFER_INFO)
+    sim.stop_sm()
+
+    sm1 = sim.start_sm1("sbic_burst_in", data_in=True)
+    rxed = []
+    def dma_drain():
+        while sm1.rx:
+            rxed.append(sm1.rx.pop(0))
+        return len(rxed) == len(data)
+    sim.run(ns=50_000, until=dma_drain)
+    sim.stop_sm()
+
+    gaps = chip.bst_gaps
+    in_spec = [g >= BST_PIPE_GAP for g in gaps]
+    ok = (rxed == data and len(gaps) == len(data) - 1 and all(in_spec))
+    if VERBOSE or not ok:
+        print(f"    sent {data}\n    got  {rxed}")
+        print(f"    gaps (ns): {[round(g, 1) for g in gaps]}")
+    lo = min(gaps) if gaps else float("nan")
+    return report(sim, "golden-burst-pipeline", ok,
+                  f"B variant: {len(rxed)}/{len(data)} bytes, "
+                  f"{len(gaps)} gaps all >= {BST_PIPE_GAP:.0f} ns "
+                  f"(min {lo:.1f})")
+
+
+def test_variant_probe(programs):
+    """ARCHITECTURE.md Appendix E item 9: soft-reset with EAF=1 (and
+    RAF=1, a [B]-only bit that is reserved-0 on an A) -> SCSI Status
+    01h on both; on a B, CDB1 then holds the microcode revision, on an
+    A it stays 0. Run the same probe firmware against both mock
+    variants and require it to tell them apart."""
+    words = {n: w for n, (_, w) in programs.items()}
+    results, viols = {}, []
+    for variant in ("A", "B"):
+        sim = Sim(words, chip_variant=variant)
+        sim.start_sm0()
+        sim.pulse_mr()
+        sim.run(ns=20_000, until=lambda: sim.bus.now(INTRQ) == 1)
+        sim.sm0_read(REG_SCSI_STATUS)
+        sim.run(ns=LCI_WINDOW)
+        own_id = 0x07 | (1 << 3) | (1 << 5)     # ID 7 + EAF + RAF[B]
+        sim.sm0_write(REG_OWN_ID, own_id)
+        sim.sm0_write(REG_COMMAND, CMD_RESET)   # soft reset applies it
+        got_int = sim.run(ns=30_000,
+                          until=lambda: sim.bus.now(INTRQ) == 1)
+        status = sim.sm0_read(REG_SCSI_STATUS)
+        cdb1 = sim.sm0_read(REG_CDB1)
+        results[variant] = (got_int, status, cdb1)
+        viols += sim.bus.violations
+    okA = results["A"] == (True, 0x01, 0x00)
+    okB = results["B"] == (True, 0x01, MICROCODE_REV)
+    for vt, msg in viols:
+        print(f"    violation @ {vt / 1000:.2f} us: {msg}")
+    ok = okA and okB and not viols
+    print(f"  {'variant-probe':<22} {'PASS' if ok else 'FAIL'}   "
+          f"A: status {results['A'][1]:#04x} CDB1 {results['A'][2]:#04x} "
+          f"| B: status {results['B'][1]:#04x} "
+          f"CDB1 {results['B'][2]:#04x} (rev)")
+    return ok
+
+
 def test_fifo_stall_hazard(programs):
     """ARCHITECTURE.md section 2 documents that >4 fire-and-forget reads
     stall `in pins` with RE- low past the 10 us tRE max. Prove the
@@ -1102,6 +1246,8 @@ def main():
         test_lci_7us_rule(programs),
         test_burst_in(programs),
         test_burst_out(programs),
+        test_golden_burst_pipeline(programs),
+        test_variant_probe(programs),
         test_fifo_stall_hazard(programs),
     ]
     failed = results.count(False)
